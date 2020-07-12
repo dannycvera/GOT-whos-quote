@@ -116,17 +116,16 @@ When folling the link, in the upper right corner please change between portrait 
 The functionality will then be divided into two separate lists: MPV and PostMVP.  Carefully decided what is placed into your MVP as the client will expect this functionality to be implemented upon project completion.  
 
 #### MVP 
-*These are examples only. Replace with your own MVP features.*
 
-- Find and use external api 
-- Render data on page 
-- Allow user to choose favorites 
+- Will use two API's. One to retrieve a random Quote, the second wll be used to cross reference the character image, name and info with the aurthor of the random quote.
+- The user will choose beteen four difference character images. If they guess the author of the quote correctly then their scor will increase.
+- Will render the application as a mobile first portrait app.
 
 #### PostMVP  
-*These are examples only. Replace with your own Post-MVP features.*
 
-- Add second API
-- Use local storage to save user favorites
+- Will render the site in landscape when the user changes orientation.
+- Add transition effects and animations when images are removed from the screen.
+- Use local storage to save the users progress and avoiding duplicate quotes.
 
 ## Project Schedule
 
