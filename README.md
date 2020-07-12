@@ -118,7 +118,8 @@ The functionality will then be divided into two separate lists: MPV and PostMVP.
 #### MVP 
 
 - Will use two API's. One to retrieve a random Quote, the second wll be used to cross reference the character image, name and info with the aurthor of the random quote.
-- The user will choose beteen four difference character images. If they guess the author of the quote correctly then their scor will increase.
+- Display three other random images which will be wrong answers. This will be retrieved from the https://api.got.show/doc/
+- The user will choose between four difference character images. If they guess the author of the quote correctly then their scor will increase.
 - Will render the application as a mobile first portrait app.
 
 #### PostMVP  
@@ -129,17 +130,13 @@ The functionality will then be divided into two separate lists: MPV and PostMVP.
 
 ## Project Schedule
 
-This schedule will be used to keep track of your progress throughout the week and align with our expectations.  
-
-You are **responsible** for scheduling time with your squad to seek approval for each deliverable by the end of the corresponding day, excluding `Saturday` and `Sunday`.
-
 |  Day | Deliverable | Status
 |---|---| ---|
 |July 10-12| Prompt / Wireframes / Priority Matrix / Timeframes | Incomplete
 |July 13| Project Approval | Incomplete
 |July 13| Core Application Structure (HTML, CSS, etc.) | Incomplete
-|July 14| Pseudocode / actual code | Incomplete
-|July 15| Initial Clickable Model  | Incomplete
+|July 14| Pseudocode / Javascript functionality | Incomplete
+|July 15| Fine tune interface and functionality | Incomplete
 |July 16| MVP | Incomplete
 |July 17| Presentations | Incomplete
 
@@ -155,9 +152,15 @@ Time frames are also key in the development cycle.  You have limited time to cod
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
-| Adding Form | H | 3hrs| 3.5hrs | 3.5hrs |
-| Working with API | H | 3hrs| 2.5hrs | 2.5hrs |
-| Total | H | 6hrs| 5hrs | 5hrs |
+| HTML Structure | H | 1hrs| 0hrs | 0hrs |
+| CSS| H | 4hrs| 0hrs | 0hrs |
+| Javascript(random character image) | H | 4hrs| 0hrs | 0hrs |
+| Javascript(scoring system) | H | 2hrs| 0hrs | 0hrs |
+| Working with API | H | 3hrs| 0hrs | 0hrs |
+| PMVP - Change Layout to landscape | H | 3hrs| 0hrs | 0hrs |
+| CSS/JS - transition effects | H | 3hrs| 0hrs | 0hrs |
+| Local Storage for scores | H | 4hrs| 0hrs | 0hrs |
+| Total | H | 24hrs| 0hrs | 0hrs |
 
 ## Code Snippet
 
