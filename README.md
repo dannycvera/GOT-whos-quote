@@ -4,17 +4,104 @@
 
 ## Project Description
 
-Which character from Game of Thrones is the author of the random quote that apears on the screen?
+Which character from Game of Thrones is the author of the random quote?
 There will be four images to choose from, but no names.
 
 Whether you choose wrong or right the image of the correct character will move to the center, 
 clearing the other characters from the screen with more information about the correct character next to it.
-Name, Title(s), Alive?, Alegiances, culture will all be shown.
+Name, Title(s), Alive?, Alegiances, culture and religion will all be shown.
 
 ## API and Data Sample
 
-Specify the API you are using and include a link. Show us a snippet of JSON returned by your API so we know you can access it and get the info you need
+Two API's will be used.
+The first will be from https://gameofthronesquotes.xyz/ to retrieve the quote and name of the character.
+Below is an example of a JSON request:
+```
+{
+    "sentence": "Three victories don't make you a conqueror.",
+    "character": {
+        "name": "Jaime Lannister",
+        "house": {
+            "name": "House Lannister of Casterly Rock",
+            "slug": "lannister"
+        }
+    }
+}
+```
 
+The Second will be from https://api.got.show/doc/
+I can retrieve individual characters or the entire list
+Below is an example of the JSON output
+
+```
+{
+    "titles": [
+        "Lord of Winterfell",
+        "Lord Paramount of the North",
+        "Warden",
+        "The North",
+        "Hand of the King",
+        "Robert Baratheon",
+        "Joffrey Baratheon",
+        "Regent",
+        "Joffrey Baratheon",
+        "Protector of the Realm",
+        "Joffrey Baratheon"
+    ],
+    "origin": [
+        "Winterfell",
+        "The Eyrie"
+    ],
+    "siblings": [
+        "Brandon Stark ",
+        "Lyanna Stark",
+        "Benjen Stark"
+    ],
+    "spouse": [
+        "Catelyn Tully"
+    ],
+    "lovers": [],
+    "plod": 0,
+    "longevity": [],
+    "plodB": 0,
+    "plodC": 0,
+    "longevityB": [],
+    "longevityC": [],
+    "culture": [
+        "Northmen"
+    ],
+    "religion": [
+        "Old Gods of the Forest"
+    ],
+    "allegiances": [
+        "House Stark",
+        "House Baratheon of King's Landing"
+    ],
+    "seasons": [],
+    "appearances": [
+        "Winter Is Coming",
+        "The Kingsroad",
+        "Lord Snow",
+        "Cripples, Bastards, and Broken Things",
+        "The Wolf and the Lion",
+        "A Golden Crown",
+        "You Win or You Die",
+        "The Pointy End",
+        "Baelor"
+    ],
+    "_id": "5cc0757c04e71a0010b86ac3",
+    "name": "Eddard Stark",
+    "slug": "Eddard_Stark",
+    "image": "https://vignette.wikia.nocookie.net/gameofthrones/images/3/37/Eddard_Stark_infobox_new.jpg/revision/latest/scale-to-width-down/323?cb=20160730050722",
+    "gender": "male",
+    "alive": false,
+    "death": 298,
+    "father": "Rickard Stark",
+    "house": "House Stark",
+    "first_seen": "Winter Is Coming\"",
+
+
+```
 
 
 ## Wireframes
