@@ -106,9 +106,10 @@ Below is an example of the JSON output
 
 ## Wireframes
 
-Upload images of your wireframes to an image hosting site or add them to an assets folder in your repo and link them here with a description of each specific wireframe.
+Portrait and Landscape wire frame can be accessed at the link below.
+When folling the link, in the upper right corner please change between portrait and landscape to see each view.
 
-[WireFrame](#)
+[WireFrame](https://wireframe.cc/pro/pp/37d79e370358447)
 
 ### MVP/PostMVP
 
