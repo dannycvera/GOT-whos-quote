@@ -149,13 +149,13 @@ The functionality will then be divided into two separate lists: MPV and PostMVP.
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
 | HTML Structure | H | 1hrs| 0hrs | 0hrs |
-| CSS| H | 4hrs| 0hrs | 0hrs |
+| CSS| H | 3hrs| 0hrs | 0hrs |
+| Working with API | H | 3hrs| 0hrs | 0hrs |
 | Javascript(random character image) | H | 4hrs| 0hrs | 0hrs |
 | Javascript(scoring system) | H | 2hrs| 0hrs | 0hrs |
-| Working with API | H | 3hrs| 0hrs | 0hrs |
-| PMVP - Change Layout to landscape | H | 3hrs| 0hrs | 0hrs |
-| CSS/JS - transition effects | H | 3hrs| 0hrs | 0hrs |
-| Local Storage for scores | H | 4hrs| 0hrs | 0hrs |
+| PMVP - Change Layout to landscape | M | 3hrs| 0hrs | 0hrs |
+| CSS/JS - transition effects | L | 3hrs| 0hrs | 0hrs |
+| Local Storage for scores | L | 4hrs| 0hrs | 0hrs |
 | Total | H | 24hrs| 0hrs | 0hrs |
 
 ## Code Snippet
