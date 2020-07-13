@@ -9,7 +9,7 @@ There will be four images to choose from, but no names.
 
 Whether you choose wrong or right the image of the correct character will move to the center, 
 clearing the other characters from the screen with more information about the correct character next to it.
-Name, Title(s), Alive?, Alegiances, culture and religion will all be shown.
+Name, Title(s), Whether they are still alive or not, alegiances, culture and religion will all be shown.
 
 ## API and Data Sample
 
@@ -30,7 +30,8 @@ Below is an example of a JSON request:
 ```
 
 The Second will be from https://api.got.show/doc/
-I can retrieve individual characters or the entire list
+This database will retrieve the portrait and other information about the character.
+I can retrieve individual characters or the entire list if necessary.
 Below is an example of the JSON output
 
 ```
@@ -107,19 +108,17 @@ Below is an example of the JSON output
 ## Wireframes
 
 Portrait and Landscape wire frame can be accessed at the link below.
-When folling the link, in the upper right corner please change between portrait and landscape to see each view.
+When folling the link, in the top menu bar towards the left, please change between portrait and landscape to see each view.
 
 [WireFrame](https://wireframe.cc/pro/pp/37d79e370358447)
 
 ### MVP/PostMVP
 
-The functionality will then be divided into two separate lists: MPV and PostMVP.  Carefully decided what is placed into your MVP as the client will expect this functionality to be implemented upon project completion.  
-
 #### MVP 
 
 - Will use two API's. One to retrieve a random Quote, the second wll be used to cross reference the character image, name and info with the aurthor of the random quote.
-- Display three other random images which will be wrong answers. This will be retrieved from the https://api.got.show/doc/
-- The user will choose between four difference character images. If they guess the author of the quote correctly then their scor will increase.
+- Display three other random images which will be wrong answers. This will be retrieved from the https://api.got.show/doc/ API.
+- The user will choose between four difference character images. If they guess the author of the quote correctly then their score will increase.
 - Will render the application as a mobile first portrait app.
 
 #### PostMVP  
