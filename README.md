@@ -148,12 +148,12 @@ When folling the link, in the top menu bar towards the left, please change betwe
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
-| HTML Structure | H | 1hrs| 0hrs | 0hrs |
-| CSS| H | 3hrs| 0hrs | 0hrs |
-| Working with API | H | 3hrs| 0hrs | 0hrs |
+| HTML Structure | H | 2hrs| 0hrs | 0hrs |
+| CSS| H | 5hrs| 0hrs | 0hrs |
+| Working with API | H | 4hrs| 0hrs | 0hrs |
 | Javascript(random character image) | H | 4hrs| 0hrs | 0hrs |
-| Javascript(scoring system) | H | 2hrs| 0hrs | 0hrs |
-| PMVP - Change Layout to landscape | M | 3hrs| 0hrs | 0hrs |
+| Javascript(scoring system) | H | 4hrs| 0hrs | 0hrs |
+| PMVP - Change Layout to landscape | M | 4hrs| 0hrs | 0hrs |
 | CSS/JS - transition effects | L | 3hrs| 0hrs | 0hrs |
 | Local Storage for scores | L | 4hrs| 0hrs | 0hrs |
 | Total | H | 24hrs| 0hrs | 0hrs |
