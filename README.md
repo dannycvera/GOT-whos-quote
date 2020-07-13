@@ -127,6 +127,7 @@ The functionality will then be divided into two separate lists: MPV and PostMVP.
 - Will render the site in landscape when the user changes orientation.
 - Add transition effects and animations when images are removed from the screen.
 - Use local storage to save the users progress and avoiding duplicate quotes.
+- Quotes from Multiple TV Series such as Breaking Bad and Movies as well
 
 ## Project Schedule
 
