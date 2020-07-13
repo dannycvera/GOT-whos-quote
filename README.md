@@ -132,7 +132,7 @@ When folling the link, in the top menu bar towards the left, please change betwe
 
 |  Day | Deliverable | Status
 |---|---| ---|
-|July 10-12| Prompt / Wireframes / Priority Matrix / Timeframes | Incomplete
+|July 10-12| Prompt / Wireframes / Priority Matrix / Timeframes | Complete
 |July 13| Project Approval | Incomplete
 |July 13| Core Application Structure (HTML, CSS, etc.) | Incomplete
 |July 14| Pseudocode / Javascript functionality | Incomplete
