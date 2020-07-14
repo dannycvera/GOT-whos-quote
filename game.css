@@ -27,7 +27,7 @@ main {
   
 }
 header {
-  width: 95%;
+  align-self: flex-start;
   padding: 0;
   width: 100%;
 }
@@ -93,6 +93,8 @@ img {
   box-shadow: 3px 3px 20px black;
   transition: .2s linear;
   margin: 2px auto;
+  max-width: 110px;
+  object-fit: cover;
 }
 
 img:active{
@@ -109,26 +111,27 @@ img:active{
   width: 0;
 }
 section {
-  max-width: 98%;
-  
+  height: 40%;
+  width: 100%;
+  align-items: center;
   padding: 3px; 
-  border-radius: 5px;
-  border: thin solid firebrick
+
 }
 
 p {
   margin: 0;
   font-size: 20px;
 }
-@media (min-width: 850px){
+@media (min-width: 830px),(min-height: 1020px) {
   main {
     
-    /*align-items: center;*/
+    justify-content: center;
     /*align-content: space-around;*/
 
   }
   header {
-    margin-top: 80px;;
+    align-self: center;
+    height: 50%;
   }
   #button{
     font-size: 20px;
@@ -139,9 +142,19 @@ p {
   img{
     height: 250px;
     width: auto;
+    max-width: 220px;
+    object-fit: cover;
+
   }
   .largeImg{
     height: 350px;
+  }
+  section{
+    /*align-self: center;*/
+    height: 50%;
+    width: 100%;
+    align-items: center;
+
   }
 }
 @media (orientation: landscape){
@@ -154,6 +167,18 @@ p {
   main{
     height: 100%;
     max-width: 50%;
+  }
+  header{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 50%;
+  }
+  section{
+    height: 50%;
+    width: 100%;
+    align-items: center;
   }
   aside{
     height: 100%;
