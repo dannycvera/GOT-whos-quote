@@ -133,9 +133,9 @@ When folling the link, in the top menu bar towards the left, please change betwe
 |  Day | Deliverable | Status
 |---|---| ---|
 |July 10-12| Prompt / Wireframes / Priority Matrix / Timeframes | Complete
-|July 13| Project Approval | Incomplete
-|July 13| Core Application Structure (HTML, CSS, etc.) | Incomplete
-|July 14| Pseudocode / Javascript functionality | Incomplete
+|July 13| Project Approval | Completed
+|July 13| Core Application Structure (HTML, CSS, etc.) | Completed
+|July 14| Pseudocode / Javascript functionality | partial
 |July 15| Fine tune interface and functionality | Incomplete
 |July 16| MVP | Incomplete
 |July 17| Presentations | Incomplete
@@ -148,13 +148,13 @@ When folling the link, in the top menu bar towards the left, please change betwe
 
 | Component | Priority | Estimated Time | Time Invested | Actual Time |
 | --- | :---: |  :---: | :---: | :---: |
-| HTML Structure | H | 2hrs| 0hrs | 0hrs |
-| CSS| H | 5hrs| 0hrs | 0hrs |
-| Working with API | H | 4hrs| 0hrs | 0hrs |
-| Javascript(random character image) | H | 4hrs| 0hrs | 0hrs |
-| Javascript(scoring system) | H | 4hrs| 0hrs | 0hrs |
-| PMVP - Change Layout to landscape | M | 4hrs| 0hrs | 0hrs |
-| CSS/JS - transition effects | L | 3hrs| 0hrs | 0hrs |
+| HTML Structure | H | 2hrs| 2hrs | 0hrs |
+| CSS| H | 5hrs| 2hrs | 0hrs |
+| Working with API | H | 4hrs| 4hrs | 0hrs |
+| Javascript(random character image) | H | 4hrs| 4hrs | 0hrs |
+| Javascript(scoring system) | H | 4hrs| 2hrs | 0hrs |
+| PMVP - Change Layout to landscape | M | 4hrs| 1.5hrs | 0hrs |
+| CSS/JS - transition effects | L | 3hrs| 1hrs | 0hrs |
 | Local Storage for scores | L | 4hrs| 0hrs | 0hrs |
 | Total | H | 30hrs| 0hrs | 0hrs |
 
