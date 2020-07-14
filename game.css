@@ -21,6 +21,7 @@ main {
   align-items: flex-start;*/
   width: 100%;
   order: 1;
+  
 }
 header {
   padding: 0;
@@ -41,7 +42,7 @@ h4 {
 }
 h1,h3,h4,p{
   margin: 5px auto;
-  transition: .1s linear;
+  transition: .2s linear;
 }
 
 #button {
@@ -84,7 +85,7 @@ img {
   margin: 0 auto;
   width: 100px;
   box-shadow: 3px 3px 20px black;
-  transition: .3s ease;
+  transition: .2s linear;
   margin: 5 auto;
 }
 
