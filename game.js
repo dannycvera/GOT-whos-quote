@@ -1,6 +1,7 @@
+//
 //global array for character choices on screen
 const choiceArr = new Array(4);
-
+const charListFull = [];
 //global variable for score
 let score = 0;
 
@@ -29,13 +30,17 @@ const charImageList = async () => {
     allCharObj.data.splice(97, 1);
     allCharObj.data.splice(92, 1);
     allCharObj.data.splice(90, 1);
-    console.log(allCharObj.data);
-    return allCharObj.data;
+    //console.log("allCharObj", allCharObj.data);
+    for (let i of allCharObj.data) {
+      charListFull.push(i);
+    }
+    console.log("charListFull", charListFull);
+    //charListFull = allCharObj.data;
   } catch (error) {
     console.error(`you have an error${error}`)
   }
 }
-//charImageList();
+charImageList();
 
 const randomQuote = async () => {
   const URL = `https://game-of-thrones-quotes.herokuapp.com/v1/random`;
@@ -89,8 +94,10 @@ const answer = (data, correct) => {
   let alive;
   if (correct) {
     isCorrect = 'CORRECT!!!'
+    score += 1;
   } else {
     isCorrect = 'INCORRECT!!!'
+    score -= 1;
   }
 
   if (data.gender === 'male') {
@@ -107,7 +114,6 @@ const answer = (data, correct) => {
     alive = " And is no longer with us.";
   }
 
-
   if (data.titles.length = 1) {
     pluralTitles = 'title includes';
     allTitles = data.titles;
@@ -123,12 +129,8 @@ const answer = (data, correct) => {
     }
   }
 
-
-
   descText = `${pronoun} ${pluralTitles} ${allTitles}`
-
   document.querySelector('p').innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`
-  score += 1;
   document.querySelector('#score').innerText = score;
 }
 
@@ -148,7 +150,6 @@ const choices = async (name) => {
     img[ansLoc].src = response.data.image;
     // calling the fuction to update score and display the appropriate text when correct
     img[ansLoc].addEventListener('click', () => {
-
       answer(response.data, true);
     });
 
@@ -156,19 +157,20 @@ const choices = async (name) => {
     choiceArr[ansLoc] = response.data;
     //retrieving a list of all the characters
 
-    const allChar = await charImageList();
+    //const allChar = await charImageList();
+    //console.log("charlistFull", charListFull);
     for (let i = 0; i < img.length; i++) {
       let image = img[i];
       //will stay in loop until global array is filled with 4 different characters
       while (choiceArr[i] == undefined) {
-        let x = rand(allChar.length);
+        let x = rand(charListFull.length);
 
         let isDup = false;
         for (let y = 0; y < img.length; y++) {
           // need to check for undefined since the comparison below needs a value
           if (choiceArr[y] != undefined) {
             // checking for duplicates inside the global variable choiceArr
-            if (allChar[x].name === choiceArr[y].name) {
+            if (charListFull[x].name === choiceArr[y].name) {
               isDup = true;
             }
           }
@@ -176,9 +178,10 @@ const choices = async (name) => {
         // only fills in the global array if not a duplicate. 
         // Which gets you one step closer to exiting the loop
         // also checking for missing image keys and duplicates
-        if (isDup !== true && ('image' in allChar[x]) && !(allChar[x].image == '')) {
-          image.src = allChar[x].image;
-          choiceArr[i] = allChar[x];
+        //console.log(choiceArr[i])
+        if (isDup !== true && ('image' in charListFull[x]) && !(charListFull[x].image == '')) {
+          image.src = charListFull[x].image;
+          choiceArr[i] = charListFull[x];
           // calling the fuction to update score and display the appropriate text when wrong
           image.addEventListener('click', () => {
             answer(response.data, false);
@@ -214,7 +217,7 @@ const checkChar = (data) => {
   } else if (name === 'Olenna Tyrell') {
     name = "Olenna Redwyne"
   }
-
+  //console.log(name);
   choices(name);
 }
 // displays the random quote
@@ -225,21 +228,25 @@ const displayQuote = (data) => {
 //resets images and clears global choiceArr
 const nextQuote = async () => {
   let img = document.querySelectorAll('img');
+  let asideImg = document
+  document.querySelector('#imgs1').classList.remove('width-auto', 'width-0');
+  document.querySelector('#imgs2').classList.remove('width-auto', 'width-0');
   for (let i = 0; i < img.length; i++) {
     delete choiceArr[i];
-    document.querySelector('#imgs1').classList.remove('width-auto', 'width-0');
-    document.querySelector('#imgs2').classList.remove('width-auto', 'width-0');
+
     // have to delete the img elemtents and recreate them to clear all the eventListeners. 
     // Trust me this is the fastest way Learned this technique from "BenD"
     // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-    let newImg = document.createElement('img');
-    newImg.style.opacity = "0";
+
+
     img[i].style.opacity = "0";
+    let newImg = document.createElement('img');
     img[i].parentElement.append(newImg);
     img[i].remove();
+    newImg.style.opacity = "0";
     newImg.style.display = "block";
-    // opacity is 0 at this point so making the display visible is OK
 
+    // opacity is 0 at this point so making the display visible is OK
     //console.log(newImg);
   }
   //console.log('choiceArr', choiceArr);
@@ -254,3 +261,4 @@ const nextQuote = async () => {
 }
 
 document.querySelector('#button').addEventListener('click', nextQuote);
+//})
