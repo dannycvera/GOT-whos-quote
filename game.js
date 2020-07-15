@@ -4,7 +4,7 @@ const choiceArr = new Array(4);
 const charListFull = [];
 //global variable for score
 let score = 0;
-
+let interval;
 //downloads all characters and returns an array 
 const charImageList = async () => {
   try {
@@ -131,7 +131,20 @@ const answer = (data, correct) => {
 
   descText = `${pronoun} ${pluralTitles} ${allTitles}`
   document.querySelector('p').innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`
-  document.querySelector('#score').innerText = score;
+  // check if you win
+  if (score === 10) {
+    document.querySelector('#score').innerText = 'WIN!!!';
+    score = 0
+    document.querySelector('#start').innerText = 'play again?';
+    interval = setInterval(win, 500);
+  } else {
+    document.querySelector('#score').innerText = score;
+  }
+}
+
+const win = () => {
+  flashScore = document.querySelector('#score');
+  flashScore.style.color = flashScore.style.color == 'red' ? 'black' : 'red';
 }
 
 const rand = (max) => {
@@ -255,7 +268,14 @@ const nextQuote = async () => {
   const data = await randomQuote();
   displayQuote(data);
   checkChar(data);
-  if (document.querySelector('#start').innerText == 'click to start') {
+  // checks if you just won and need to reset the scoreboard
+  if (document.querySelector('#start').innerText != 'next quote') {
+    let checkScore = document.querySelector('#score');
+    if (checkScore.innerText === 'WIN!!!') {
+      clearInterval(interval);
+      checkScore.innerText = score;
+      checkScore.style.color = 'rgb(255, 238, 0)';
+    }
     document.querySelector('#start').innerText = 'next quote';
   }
 }
