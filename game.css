@@ -34,30 +34,53 @@ header {
 
 #scoreBoard {
   margin: 0 auto;
-
   width: 150px;
   border-radius: 5px;
-
 }
-h4 {
-  display: inline-block;
-  
-  width: 30%;
+h1{
+  font-size: 6vmin;
 }
-h1,h3,h4,p{
+h1,h3,h4,p, h5{
+  font-family: 'Game of Thrones';
   margin: 5px auto;
   transition: .2s linear;
+}
+
+h3{
+  font-size: 3vmin;
+}
+
+h4 {
+  font-size: 3vmin;
+  display: inline-block;
+  width: 70px;
+}
+
+#score{
+  font-size: 4vmin;
+}
+
+#quote {
+  margin: 2px;
+  padding: 4px;
+  font-size: 3.5vmin;
+  border: 2px solid firebrick;
+  border-radius: 5px;
+  background-color: rgba(255, 183, 0, .6);
+}
+
+#start {
+  font-size: 12px;
 }
 
 #button {
   color: rgb(255, 238, 0);
   margin: 0 auto;
-  width: 130px;
+  width: 200px;
   border-radius: 5px;
-  border: 2px solid gray;
+  border: 4px solid rgba(0, 0, 0, .5);
   background-color: rgba(255, 8, 8, 1.0);
   transition: .1s linear;
-  
 }
 #button:active {
   transform: scale(.95);
@@ -93,8 +116,9 @@ img {
   box-shadow: 3px 3px 20px black;
   transition: .2s linear;
   margin: 2px auto;
+  /*
   max-width: 110px;
-  object-fit: cover;
+  object-fit: cover;*/
 }
 
 img:active{
@@ -118,14 +142,7 @@ section {
 
 }
 
-p {
-  margin: 2px;
-  padding: 4px;
-  font-size: 20px;
-  border: 2px solid firebrick;
-  border-radius: 5px;
-  background-color: rgba(255, 183, 0, .6);
-}
+
 @media (min-width: 830px),(min-height: 1020px) {
   main {
     
@@ -138,14 +155,14 @@ p {
   #button{
     font-size: 20px;
     height: 40px;
-    width: 200px;
     padding: 5px;
   }
   img{
     height: 250px;
     width: auto;
+    /*
     max-width: 220px;
-    object-fit: cover;
+    object-fit: cover;*/
 
   }
   .largeImg{

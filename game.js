@@ -255,8 +255,8 @@ const nextQuote = async () => {
   const data = await randomQuote();
   displayQuote(data);
   checkChar(data);
-  if (document.querySelector('#button').innerText !== 'click to start') {
-    document.querySelector('#button').innerText = 'next quote';
+  if (document.querySelector('#start').innerText == 'click to start') {
+    document.querySelector('#start').innerText = 'next quote';
   }
 }
 
