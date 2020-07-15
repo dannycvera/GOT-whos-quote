@@ -245,12 +245,16 @@ section {
     width: auto;
 
 }
-  @media (orientation: landscape) and (min-height: 1050px) {
-    img{
-      height: 400px;
-      width: auto;
-    }
-    .largeImg{
-      height: 600px;
-    }
+.largeImg {
+  height: 500px;
+  width: auto;
+}
+@media (orientation: landscape) and (min-height: 1050px) {
+  img{
+    height: 400px;
+    width: auto;
+  }
+  .largeImg{
+    height: 600px;
+  }
 }

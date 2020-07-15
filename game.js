@@ -103,7 +103,7 @@ const answer = (data, correct) => {
   // cloning the node to remove the event listener on the large image. Learned this technique from "BenD"
   // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
   let newImg = img[x].cloneNode();
-  setTimeout(() => { parentAside.replaceChild(newImg, img[x]); }, 300); //settimeout to allow for animations
+  setTimeout(() => { parentAside.replaceChild(newImg, img[x]); }, 200); //settimeout to allow for animations
   let descText;
   let isCorrect;
   let pronoun;
@@ -250,31 +250,39 @@ const displayQuote = (data) => {
   document.querySelector('#quote').innerText = data.sentence;
   document.querySelector('#quote').style.opacity = "1.0";
   document.querySelector('#button').style.opacity = "0";
-  setTimeout(() => { document.querySelector('#button').style.display = 'none'; }, 300)
+  setTimeout(() => { document.querySelector('#button').style.display = 'none'; }, 200)
 }
 //resets images and clears global choiceArr
-const nextQuote = async () => {
-
-  let img = document.querySelectorAll('img');
-  document.querySelector('#imgs1').classList.remove('width-auto', 'width-0');
-  document.querySelector('#imgs2').classList.remove('width-auto', 'width-0');
-  for (let i = 0; i < img.length; i++) {
-    delete choiceArr[i];
-
-    // have to delete the img elemtents and recreate them to clear all the eventListeners. 
-    // Trust me this is the fastest way Learned this technique from "BenD"
-    // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-
-    img[i].style.opacity = "0";
-    let newImg = document.createElement('img');
-    img[i].parentElement.append(newImg);
-    img[i].remove();
-    newImg.style.opacity = "0";
-    newImg.style.display = "block";
-
-    // opacity is 0 at this point so making the display visible is OK
-    //console.log(newImg);
+const nextQuote = () => {
+  if (document.querySelector('.largeImg')) {
+    document.querySelector('.largeImg').style.opacity = "0";
   }
+  setTimeout(() => {
+    let img = document.querySelectorAll('img');
+    document.querySelector('#imgs1').classList.remove('width-auto', 'width-0');
+    document.querySelector('#imgs2').classList.remove('width-auto', 'width-0');
+    for (let i = 0; i < img.length; i++) {
+      delete choiceArr[i];
+
+      // have to delete the img elemtents and recreate them to clear all the eventListeners. 
+      // Trust me this is the fastest way Learned this technique from "BenD"
+      // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+      img[i].style.opacity = "0";
+      let newImg = document.createElement('img');
+      img[i].parentElement.append(newImg);
+      img[i].remove();
+      newImg.style.opacity = "0";
+      newImg.style.display = "block";
+
+      // opacity is 0 at this point so making the display visible is OK
+      //console.log(newImg);
+    }
+    getQuote();
+  }, 200)
+}
+
+const getQuote = async () => {
+
   //console.log('choiceArr', choiceArr);
   //fading the images and clears them
   document.querySelector('#quote').style.opacity = "0";
