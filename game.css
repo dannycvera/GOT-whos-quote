@@ -223,7 +223,7 @@ section {
   }
 }
 
-@media (orientation: landscape) and (min-height: 750px) {
+@media (orientation: landscape) and (min-height: 700px) {
   img{
     height: 300px;
     width: auto;
