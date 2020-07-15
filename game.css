@@ -17,6 +17,7 @@ html, body{
   background-size: cover;
   background-position: center;
   color:  rgb(255, 230, 0);
+  font-family: 'Game of Thrones';
 }
 main {
   display: flex;
@@ -52,7 +53,6 @@ h1{
 
 }
 h1,h3,h4,p, h5{
-  font-family: 'Game of Thrones';
   margin: 5px auto;
   transition: .2s linear;
 }
@@ -62,17 +62,19 @@ h3{
 }
 #scoreBoard {
   margin: 0 auto;
-  width: 230px;
+  width: 100%;
   border-radius: 5px;
 }
 h4 {
   font-size: 3vmin;
   display: inline-block;
-  width: 100px;
+  width: 30%;
+  text-align: center;
 }
 
 #score{
   font-size: 4vmin;
+
 }
 
 #quote {
@@ -188,6 +190,18 @@ section {
 
   }
 }
+@media (orientation: portrait) and (min-height: 750px) {
+  img{
+    height: 200px;
+    width: auto;
+  }
+}
+@media (orientation: portrait) and (min-height: 850px) {
+  img{
+    height: 250px;
+    width: auto;
+  }
+}
 @media (orientation: portrait) and (min-height: 1150px) {
   img{
     height: 350px;
@@ -223,7 +237,7 @@ section {
   }
 }
 
-@media (orientation: landscape) and (min-height: 690px) {
+@media (orientation: landscape) and (min-height: 660px) {
   img{
     height: 300px;
     width: auto;
