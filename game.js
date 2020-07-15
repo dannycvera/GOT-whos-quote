@@ -2,6 +2,7 @@
 //global array for character choices on screen
 const choiceArr = new Array(4);
 const charListFull = [];
+const prevQuote = [];
 //global variable for score
 let score = 0;
 let interval;
@@ -45,15 +46,37 @@ charImageList();
 const randomQuote = async () => {
   const URL = `https://game-of-thrones-quotes.herokuapp.com/v1/random`;
   try {
-    const response = await axios.get(URL);
+    let response = await axios.get(URL);
+    let i = 0;
+    console.log(prevQuote)
+    while (i < prevQuote.length) {
+      console.log(`previous quote ${i} - ${prevQuote[i].character.name}`, `retrieved quote - ${response.data.character.name}`);
+      if ((response.data.sentence === prevQuote[i].sentence) || (response.data.character.name === prevQuote[prevQuote.length - 1].character.name)) {
+        console.log(`DUPLICATE ${i}`, response.data, prevQuote[i], prevQuote[prevQuote.length - 1].character.name, prevQuote.length - 1);
+        i = 0
+        response = await axios.get(URL);
+      } else {
+        i++
+      }
+
+    }
     return response.data;
   } catch (error) {
     console.error(`You have an error. Please clean it up ${error}`)
   }
 }
 
+const win = () => {
+  flashScore = document.querySelector('#score');
+  flashScore.style.color = flashScore.style.color == 'red' ? 'black' : 'red';
+}
+
 // checks correct answer and displays the appropriate text
 const answer = (data, correct) => {
+  // makes the next quote button visable again
+  document.querySelector('#button').style.display = 'block';
+  document.querySelector('#button').style.opacity = "1";
+
   let img = document.querySelectorAll('img');
   let x;       //correct image index stored in x
   for (let i = 0; i < img.length; i++) {
@@ -64,7 +87,7 @@ const answer = (data, correct) => {
     } else {
       img[i].classList.add("smallImg");
       img[i].style.opacity = "0";
-      setTimeout(() => { img[i].style.display = 'none'; }, 300);
+      //setTimeout(() => { img[i].style.display = 'none'; }, 200);
     }
   }
   // increasing the width of the parent of the correct answer image
@@ -81,10 +104,6 @@ const answer = (data, correct) => {
   // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
   let newImg = img[x].cloneNode();
   setTimeout(() => { parentAside.replaceChild(newImg, img[x]); }, 300); //settimeout to allow for animations
-  //console.log("correct answer?", correct);
-
-  // text to display if correct or incorrect
-  console.log('constructing answer', data)
   let descText;
   let isCorrect;
   let pronoun;
@@ -128,11 +147,10 @@ const answer = (data, correct) => {
       }
     }
   }
-
   descText = `${pronoun} ${pluralTitles} ${allTitles}`
   document.querySelector('p').innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`
   // check if you win
-  if (score === 10) {
+  if (score === 2) {
     document.querySelector('#score').innerText = 'WIN!!!';
     score = 0
     document.querySelector('#start').innerText = 'play again?';
@@ -142,10 +160,6 @@ const answer = (data, correct) => {
   }
 }
 
-const win = () => {
-  flashScore = document.querySelector('#score');
-  flashScore.style.color = flashScore.style.color == 'red' ? 'black' : 'red';
-}
 
 const rand = (max) => {
   return Math.floor(Math.random() * max);
@@ -199,8 +213,6 @@ const choices = async (name) => {
           image.addEventListener('click', () => {
             answer(response.data, false);
           });
-          //}
-
         }
       }
     }
@@ -237,11 +249,13 @@ const checkChar = (data) => {
 const displayQuote = (data) => {
   document.querySelector('#quote').innerText = data.sentence;
   document.querySelector('#quote').style.opacity = "1.0";
+  document.querySelector('#button').style.opacity = "0";
+  setTimeout(() => { document.querySelector('#button').style.display = 'none'; }, 300)
 }
 //resets images and clears global choiceArr
 const nextQuote = async () => {
+
   let img = document.querySelectorAll('img');
-  let asideImg = document
   document.querySelector('#imgs1').classList.remove('width-auto', 'width-0');
   document.querySelector('#imgs2').classList.remove('width-auto', 'width-0');
   for (let i = 0; i < img.length; i++) {
@@ -250,7 +264,6 @@ const nextQuote = async () => {
     // have to delete the img elemtents and recreate them to clear all the eventListeners. 
     // Trust me this is the fastest way Learned this technique from "BenD"
     // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-
 
     img[i].style.opacity = "0";
     let newImg = document.createElement('img');
@@ -266,6 +279,10 @@ const nextQuote = async () => {
   //fading the images and clears them
   document.querySelector('#quote').style.opacity = "0";
   const data = await randomQuote();
+  // storing previous quote to protect against duplicates quotes
+  prevQuote.push(data);
+  //console.log(prevQuote);
+
   displayQuote(data);
   checkChar(data);
   // checks if you just won and need to reset the scoreboard
@@ -273,6 +290,10 @@ const nextQuote = async () => {
     let checkScore = document.querySelector('#score');
     if (checkScore.innerText === 'WIN!!!') {
       clearInterval(interval);
+      // resets array storing used quotes
+      while (prevQuote.length > 0) {
+        prevQuote.pop();
+      }
       checkScore.innerText = score;
       checkScore.style.color = 'rgb(255, 238, 0)';
     }
