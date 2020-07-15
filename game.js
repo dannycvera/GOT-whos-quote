@@ -150,7 +150,7 @@ const answer = (data, correct) => {
   descText = `${pronoun} ${pluralTitles} ${allTitles}`
   document.querySelector('p').innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`
   // check if you win
-  if (score === 2) {
+  if (score === 10) {
     document.querySelector('#score').innerText = 'WIN!!!';
     score = 0
     document.querySelector('#start').innerText = 'play again?';
