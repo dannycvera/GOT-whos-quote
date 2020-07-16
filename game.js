@@ -2,6 +2,7 @@
 //
 // scoring
 const winningScore = 5;
+const losingScore = -5
 let score = 0;
 let winInterval;   // used later for flashing WIN!! on screen
 // global local storage
@@ -9,10 +10,10 @@ if (localStorage.score) {
   score = Number(localStorage.score);
   document.querySelector('#score').innerText = score;
 }
-if (localStorage.prevQuote === undefined) {
-  localStorage.prevQuote = JSON.stringify([]);
+if (localStorage.prevQuotes === undefined) {
+  localStorage.prevQuotes = JSON.stringify([]);
 }
-const prevQuote = JSON.parse(localStorage.prevQuote);
+const prevQuotes = JSON.parse(localStorage.prevQuotes);
 
 // global array for character choices on screen
 const charListFull = [];
@@ -42,6 +43,20 @@ const charImageList = async () => {
 }
 charImageList();
 
+// resets the score and previous quotes array and flashes the game result text
+const gameEnd = () => {
+  score = 0;
+  while (prevQuotes.length > 0) {
+    prevQuotes.pop();
+  }
+  localStorage.prevQuotes = JSON.stringify(prevQuotes);
+  document.querySelector('#start').innerText = 'play again?';
+  // sets the word 'WIN!!!' to change color repeatedly
+  winInterval = setInterval(() => {
+    let scoreWin = document.querySelector('#score');
+    scoreWin.classList.toggle('end');
+  }, 500);
+}
 
 
 // checks if the answer is correct and displays the appropriate text
@@ -129,18 +144,12 @@ const answer = (data, correct) => {
   // check if you win then resets the score and empties the previous quotes array
   if (score === winningScore) {
     document.querySelector('#score').innerText = 'WIN!!!';
-    score = 0;
+    gameEnd();
+  } else if (score == losingScore) {
+    document.querySelector('p').innerHTML = "You have guessed wrong too many times.<br>You will now be burned alive!";
+    document.querySelector('#score').innerText = 'Lost!!!';
+    gameEnd();
 
-    while (prevQuote.length > 0) {
-      prevQuote.pop();
-    }
-    localStorage.prevQuote = JSON.stringify(prevQuote);
-    document.querySelector('#start').innerText = 'play again?';
-    // sets the word 'WIN!!!' to change color repeatedly
-    winInterval = setInterval(() => {
-      let scoreWin = document.querySelector('#score');
-      scoreWin.classList.toggle('win');
-    }, 500);
   } else {
     // otherwise just updates the score
     document.querySelector('#score').innerText = score;
@@ -247,15 +256,22 @@ const randomQuote = async () => {
   try {
     let response = await axios.get(URL);
     let i = 0;
-    console.log(prevQuote);
-    while (i < prevQuote.length) {
-      if ((response.data.sentence === prevQuote[i].sentence) || (response.data.character.name === prevQuote[prevQuote.length - 1].character.name)) {
+    let x = 0;      // protects against infinate loops if too many quotes have been requested.
+    while (i < prevQuotes.length || x >= 10) {
+      if ((response.data.sentence === prevQuotes[i].sentence) || (response.data.character.name === prevQuotes[prevQuotes.length - 1].character.name)) {
         i = 0
         response = await axios.get(URL);
+        x++     // protects against infinate loops if too many quotes have been requested.
       } else {
         i++
       }
     }
+    if (x >= 10 || score == -10) {
+      document.querySelector('p').innerText = " There are no more quotes. You have lost.";
+      document.querySelector('#score').innerText = 'Lost!!!';
+      gameEnd();
+    }
+
     return response.data;
   } catch (error) {
     console.error(`You have an error. Please clean it up ${error}`)
@@ -269,8 +285,8 @@ const getQuote = async () => {
   document.querySelector('#quote').style.opacity = "0";
   const data = await randomQuote();
   // storing previous quote to protect against duplicates quotes
-  prevQuote.push(data);
-  localStorage.prevQuote = JSON.stringify(prevQuote);
+  prevQuotes.push(data);
+  localStorage.prevQuotes = JSON.stringify(prevQuotes);
   displayQuote(data);
   checkChar(data);
   // checks if you just won and needs to reset the scoreboard
