@@ -18,11 +18,6 @@ const prevQuotes = JSON.parse(localStorage.prevQuotes);
 // global array for character choices on screen
 const charListFull = [];
 //
-// end of global variables
-
-
-
-
 // downloads all characters and stores in a global variable charListFull
 const charImageList = async () => {
   try {
@@ -43,9 +38,12 @@ const charImageList = async () => {
 }
 charImageList();
 
+
+
 // resets the score and previous quotes array and flashes the game result text
 const gameEnd = () => {
   score = 0;
+  // resets the previous quotes array
   while (prevQuotes.length > 0) {
     prevQuotes.pop();
   }
@@ -57,6 +55,7 @@ const gameEnd = () => {
     scoreWin.classList.toggle('end');
   }, 500);
 }
+
 
 
 // checks if the answer is correct and displays the appropriate text
@@ -129,11 +128,11 @@ const answer = (data, correct) => {
   } else {
     pluralTitles = 'titles include';
     allTitles = data.titles[0];
-    for (let i = 1; i < data.titles.length; i++) {
-      if (data.titles[i] !== data.titles.length - 1) {
-        allTitles.concat(", ", data.titles[i]);
+    for (let i of data.titles) {
+      if (i !== data.titles.length - 1) {
+        allTitles.concat(", ", i);
       } else {
-        allTitles.concat(" and ", data.titles[i]);
+        allTitles.concat(" and ", i);
       }
     }
   }
