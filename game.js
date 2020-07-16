@@ -1,7 +1,12 @@
-//global array for character choices on screen
+
+let winningScore = 10;
+//global variable for score
+let score = 0;
 const locStore = window.localStorage;
-const choiceArr = new Array(4);
-const charListFull = [];
+if (locStore.score) {
+  score = Number(locStore.score);
+  document.querySelector('#score').innerText = score;
+}
 console.log(locStore.prevQuote);
 let emptyArr = [];
 if (locStore.prevQuote === undefined) {
@@ -9,15 +14,9 @@ if (locStore.prevQuote === undefined) {
 }
 const prevQuote = JSON.parse(locStore.prevQuote);
 console.log(prevQuote);
-
-//global variable for score
-let score = 0;
-if (locStore.score) {
-  score = Number(locStore.score);
-  document.querySelector('#score').innerText = score;
-}
-console.log(locStore.score);
-let winningScore = 10;
+const choiceArr = new Array(4);
+//global array for character choices on screen
+const charListFull = [];
 let interval;   // used later for flashing WIN!! on screen
 
 
@@ -166,6 +165,10 @@ const answer = (data, correct) => {
   if (score === winningScore) {
     document.querySelector('#score').innerText = 'WIN!!!';
     score = 0;
+    while (prevQuote.length > 0) {
+      prevQuote.pop();
+    }
+    localStorage.prevQuote = JSON.stringify(prevQuote);
     document.querySelector('#start').innerText = 'play again?';
     interval = setInterval(win, 500);
   } else {
@@ -173,6 +176,7 @@ const answer = (data, correct) => {
   }
   console.log(score);
   locStore.score = score;
+
 }
 
 
@@ -297,7 +301,7 @@ const getQuote = async () => {
   const data = await randomQuote();
   // storing previous quote to protect against duplicates quotes
   prevQuote.push(data);
-
+  localStorage.prevQuote = JSON.stringify(prevQuote);
   displayQuote(data);
   checkChar(data);
   // checks if you just won and needs to reset the scoreboard
@@ -306,16 +310,13 @@ const getQuote = async () => {
     if (checkScore.innerText === 'WIN!!!') {
       clearInterval(interval);
       // resets array storing used quotes
-      while (prevQuote.length > 0) {
-        prevQuote.pop();
-      }
-
       checkScore.innerText = score;
       checkScore.style.color = 'rgb(255, 238, 0)';
     }
     document.querySelector('#start').innerText = 'next quote';
   }
-  localStorage.prevQuote = JSON.stringify(prevQuote);
+
+  console.log('after getQuote', prevQuote)
 }
 
 
