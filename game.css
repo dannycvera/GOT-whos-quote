@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
-  /*border: thin solid white;*/
 }
+
 html, body{
   display: flex;
   justify-content: center;
@@ -19,6 +19,7 @@ html, body{
   color:  rgb(255, 230, 0);
   font-family: 'Game of Thrones';
 }
+
 main {
   display: flex;
   flex-wrap: wrap;
@@ -30,6 +31,7 @@ main {
   transition: .2s linear;
 
 }
+
 header {
   align-self: flex-start;
   padding: 0;
@@ -37,6 +39,7 @@ header {
   height: 60%;
 }
 
+/* title begin */
 #title, #quote{
   margin: 5px;
   padding: 4px;
@@ -48,18 +51,21 @@ header {
 span {
   font-size: 4.5vmin;
 }
+
 h1{
   font-size: 6vmin;
 
 }
 h1,h3,h4,p, h5{
   margin: 5px auto;
-
 }
 
 h3{
   font-size: 3vmin;
 }
+/* title end */
+
+/* scoring begin */
 #scoreBoard {
   margin: 0 auto;
   width: 100%;
@@ -77,15 +83,15 @@ h4 {
   text-align: center;
 }
 
+/* in the GOT font, Numbers are really small. 
+Needed to make them bigger*/
 #score{
   font-size: 4vmin;
-  
 }
+/* scoring end */
 
-#quote {
-  font-size: 3.5vmin;
-}
 
+/* button begin */
 #start {
   font-size: 12px;
 }
@@ -99,9 +105,34 @@ h4 {
   background-color: rgb(159, 1, 1);
   transition: .2s linear;
 }
+
 #button:active {
   transform: scale(.95);
 }
+/* button end */
+
+/* quote text begin */
+#quote {
+  font-size: 3.5vmin;
+}
+
+section {
+  height: 40%;
+  width: 100%;
+  align-items: center;
+  padding: 0; 
+}
+
+#loader{
+  display: none;
+  width: auto;
+  height: 50%;
+  opacity: 0;
+  background: url(./img/loading.svg) center no-repeat;
+}
+/* quote text end */
+
+/* images begin */
 aside{
   margin: 0 auto;
   display: flex;
@@ -112,6 +143,7 @@ aside{
   height: 60%;
   transition: .2s linear;
 }
+
 .width-auto{
   width: auto;
 }
@@ -119,9 +151,11 @@ aside{
 .width-0{
   width: 10;
 }
+
 #imgs1{
   order: 2;
 }
+
 #imgs2 {
   order: 3;
 }
@@ -146,65 +180,72 @@ img:active{
   height: 300px;
   width: auto;
 }
+
 .smallImg {
   height: 1;
   width: 1;
 }
-section {
-  height: 40%;
-  width: 100%;
-  align-items: center;
-  padding: 0; 
-}
+/* images end */
+
 
 @media (min-height: 900px) {
   header {
     align-self: center;
     height: 50%;
   }
+
   #start{
     font-size: 18px;
   }
+
   #button{
     height: 40px;
     width: 300px;
     padding: 2px;
   }
+
   img{
     height: 250px;
     width: auto;
   }
+
   .largeImg{
     height: 350px;
   }
+
   section{
     height: 20%;
     width: 100%;
     align-items: center;
   }
 }
+
 @media (min-height: 1150px) {
 #start{
   font-size: 18px;
 }
+
 #button{
   height: 60px;
   width: 300px;
   padding: 10px;
 }
 }
+
 @media (orientation: portrait) and (min-height: 750px) {
   img{
     height: 200px;
     width: auto;
   }
 }
+
 @media (orientation: portrait) and (min-height: 850px) {
   img{
     height: 250px;
     width: auto;
   }
 }
+
 @media (orientation: portrait) and (min-height: 1150px) {
   img{
     height: 350px;
@@ -256,6 +297,7 @@ section {
   width: auto;
 }
 }
+
 @media (orientation: landscape) and (min-height: 1050px) {
   img{
     height: 400px;

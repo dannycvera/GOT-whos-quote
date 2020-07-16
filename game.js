@@ -120,8 +120,10 @@ const answer = (data, correct) => {
     tense = 'was';
     alive = " And is no longer with us.";
   }
-  // checking if more than one title. 
+  // checking if the character has more than one title. 
   // Currently the API only sends one title when searching individually.
+  // In the future if I devote more screen space to the text, I can list all their titles
+  // by cross referencing with charListFull.titles
   if (data.titles.length = 1) {
     pluralTitles = 'title includes';
     allTitles = data.titles;
@@ -139,7 +141,6 @@ const answer = (data, correct) => {
   // puts all the variables together to generate the answer text
   descText = `${pronoun} ${pluralTitles} ${allTitles}`
   document.querySelector('p').innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`
-
   // check if you win then resets the score and empties the previous quotes array
   if (score === winningScore) {
     document.querySelector('#score').innerText = 'WIN!!!';
@@ -157,6 +158,7 @@ const answer = (data, correct) => {
   localStorage.score = score;
 }
 
+
 // generates random whole numbers starting from zero to the parameter "max".
 const rand = (max) => {
   return Math.floor(Math.random() * max);
@@ -173,7 +175,7 @@ const choices = async (name) => {
     // setting the image index of the correct answer
     let ansLoc = rand(img.length);
     img[ansLoc].src = response.data.image;
-    // calling the fuction to update score and display the appropriate text when correct
+    // calling the fuction "answer" to update score and display the appropriate text when correct
     img[ansLoc].addEventListener('click', () => {
       answer(response.data, true);
     });
@@ -198,11 +200,10 @@ const choices = async (name) => {
         }
         // If not a Duplicate you get one step closer to exiting the loop
         // also checking for missing image keys in the oject
-        if (isDup !== true && ('image' in charListFull[x]) && !(charListFull[x].image == '')) {
+        if ((isDup !== true) && ('image' in charListFull[x]) && !(charListFull[x].image == '')) {
           image.src = charListFull[x].image;
           choiceArr[i] = charListFull[x];
-          // calling the answer function to update score and display the appropriate text 
-          // when a right or wrong answer is given
+          // calling the answer function to update score and the appropriate text when a wrong answer is given
           image.addEventListener('click', () => {
             answer(response.data, false);
           });
@@ -257,6 +258,7 @@ const randomQuote = async () => {
     let i = 0;
     let x = 0;      // protects against infinate loops if too many quotes have been requested.
     while (i < prevQuotes.length || x >= 10) {
+      // checks if the current quote is a duplicate of any previous quotes
       if ((response.data.sentence === prevQuotes[i].sentence) || (response.data.character.name === prevQuotes[prevQuotes.length - 1].character.name)) {
         i = 0
         response = await axios.get(URL);
@@ -282,10 +284,14 @@ const randomQuote = async () => {
 const getQuote = async () => {
   //fading the images and clears them
   document.querySelector('#quote').style.opacity = "0";
+  let loader = document.querySelector('#loader');
+  loader.style.display = 'block';
+  loader.style.opacity = '1.0';
   const data = await randomQuote();
   // storing previous quote to protect against duplicates quotes
   prevQuotes.push(data);
   localStorage.prevQuotes = JSON.stringify(prevQuotes);
+  setTimeout(() => { loader.style.display = 'none' }, 200);
   displayQuote(data);
   checkChar(data);
   // checks if you just won and needs to reset the scoreboard
