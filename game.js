@@ -291,6 +291,7 @@ const getQuote = async () => {
   // storing previous quote to protect against duplicates quotes
   prevQuotes.push(data);
   localStorage.prevQuotes = JSON.stringify(prevQuotes);
+  loader.style.opacity = '0';
   setTimeout(() => { loader.style.display = 'none' }, 200);
   displayQuote(data);
   checkChar(data);
