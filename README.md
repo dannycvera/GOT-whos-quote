@@ -155,8 +155,8 @@ When folling the link, in the top menu bar towards the left, please change betwe
 | Javascript(scoring system) | H | 4hrs| 3hrs | 0hrs |
 | PMVP - Change Layout to landscape | M | 4hrs| 4.5hrs | 0hrs |
 | CSS/JS - transition effects | L | 3hrs| 3hrs | 0hrs |
-| Local Storage for scores | L | 4hrs| 0hrs | 0hrs |
-| Total | H | 30hrs| 29hrs | 0hrs |
+| Local Storage for scores | L | 4hrs| 3hrs | 0hrs |
+| Total | H | 30hrs| 32hrs | 0hrs |
 
 ## Code Snippet
 
