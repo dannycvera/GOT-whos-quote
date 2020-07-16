@@ -220,6 +220,8 @@ const choices = async (name) => {
   }
 }
 
+
+
 // checks and fixes names that dont match correctly 
 // from the quotes database to the character data
 const checkChar = (data) => {
@@ -287,7 +289,6 @@ const randomQuote = async () => {
     // storing previous quote to protect against duplicates quotes
     prevQuotes.push(resp.data);
     localStorage.prevQuotes = JSON.stringify(prevQuotes);
-
     displayQuote(resp.data);
     checkChar(resp.data);
     return resp.data;
