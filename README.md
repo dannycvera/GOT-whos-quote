@@ -138,7 +138,7 @@ When folling the link, in the top menu bar towards the left, please change betwe
 |July 14| Pseudocode / Javascript functionality | Completed
 |July 14| Fine tune interface and functionality | Complete
 |July 15| MVP | Complete
-|July 15| PMV(checking for Duplicates and Local Storage)| Complete
+|July 15| PMVP(checking for Duplicates and Local Storage)| Complete
 |July 17| Presentations | Incomplete
 
 ## Priority Matrix
