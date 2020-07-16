@@ -117,19 +117,12 @@ Needed to make them bigger*/
 }
 
 section {
-  height: 40%;
+  height: 50%;
   width: 100%;
   align-items: center;
   padding: 0; 
 }
 
-#loader{
-  display: none;
-  width: auto;
-  height: 50%;
-  opacity: 0;
-  background: url(./img/loading.svg) center no-repeat;
-}
 /* quote text end */
 
 /* images begin */

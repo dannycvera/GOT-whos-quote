@@ -5,19 +5,18 @@ const winningScore = 5;
 const losingScore = -5
 let score = 0;
 let winInterval;   // used later for flashing WIN!! on screen
-// global local storage
+// global local storage of the current score
 if (localStorage.score) {
   score = Number(localStorage.score);
   document.querySelector('#score').innerText = score;
 }
+// global local storage of previously viewed quotes
 if (localStorage.prevQuotes === undefined) {
   localStorage.prevQuotes = JSON.stringify([]);
 }
 const prevQuotes = JSON.parse(localStorage.prevQuotes);
-
 // global array for character choices on screen
 const charListFull = [];
-//
 // downloads all characters and stores in a global variable charListFull
 const charImageList = async () => {
   try {
@@ -31,7 +30,6 @@ const charImageList = async () => {
     for (let i of allCharObj.data) {
       charListFull.push(i);
     }
-    console.log("charListFull", charListFull);
   } catch (error) {
     console.error(`you have an error${error}`)
   }
@@ -52,8 +50,13 @@ const gameEnd = () => {
   // sets the word 'WIN!!!' to change color repeatedly
   winInterval = setInterval(() => {
     let scoreWin = document.querySelector('#score');
-    scoreWin.classList.toggle('end');
-  }, 500);
+    //scoreWin.classList.toggle('end');
+    if (scoreWin.classList.contains('end')) {
+      scoreWin.classList.remove('end');
+    } else {
+      scoreWin.classList.add('end');
+    }
+  }, 450);
 }
 
 
@@ -169,19 +172,18 @@ const rand = (max) => {
 const choices = async (name) => {
   try {
     const charURL = `https://api.got.show/api/show/characters/${name}`;
-    const response = await axios.get(charURL);
-    console.log(response);
+    const resp = await axios.get(charURL);
     let img = document.querySelectorAll('img');
     // setting the image index of the correct answer
     let ansLoc = rand(img.length);
-    img[ansLoc].src = response.data.image;
+    img[ansLoc].src = resp.data.image;
     // calling the fuction "answer" to update score and display the appropriate text when correct
     img[ansLoc].addEventListener('click', () => {
-      answer(response.data, true);
+      answer(resp.data, true);
     });
     //array to strore currently displayed characters 
     const choiceArr = new Array(4);
-    choiceArr[ansLoc] = response.data;
+    choiceArr[ansLoc] = resp.data;
     //retrieving a list of all the characters
     for (let i = 0; i < img.length; i++) {
       let image = img[i];
@@ -205,7 +207,7 @@ const choices = async (name) => {
           choiceArr[i] = charListFull[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
           image.addEventListener('click', () => {
-            answer(response.data, false);
+            answer(resp.data, false);
           });
         }
       }
@@ -240,12 +242,26 @@ const checkChar = (data) => {
 
 
 
-// displays the random quote
+// displays the quote
 const displayQuote = (data) => {
+  // clears loading SVG when next quote is about to be displayed
+  document.querySelector('section').removeAttribute('style', 'background');
   document.querySelector('#quote').innerText = data.sentence;
   document.querySelector('#quote').style.opacity = "1.0";
   document.querySelector('#button').style.opacity = "0";
   setTimeout(() => { document.querySelector('#button').style.display = 'none'; }, 200)
+
+  // checks if you just won and needs to reset the scoreboard
+  if (document.querySelector('#start').innerText != 'next quote') {
+    let checkScore = document.querySelector('#score');
+    if (checkScore.innerText === 'WIN!!!' || checkScore.innerText === 'Lost!!!') {
+      clearInterval(winInterval);
+      // resets array storing used quotes
+      checkScore.innerText = score;
+      document.querySelector('#score').classList.remove('end');
+    }
+    document.querySelector('#start').innerText = 'next quote';
+  }
 }
 
 
@@ -254,57 +270,29 @@ const displayQuote = (data) => {
 const randomQuote = async () => {
   const URL = `https://game-of-thrones-quotes.herokuapp.com/v1/random`;
   try {
-    let response = await axios.get(URL);
+    let resp = await axios.get(URL);
     let i = 0;
-    let x = 0;      // protects against infinate loops if too many quotes have been requested.
+    let x = 0;      // protects against infinite loops. If too many duplicate quotes have been requested.
     while (i < prevQuotes.length || x >= 10) {
+      let lastQuoteChara = prevQuotes[prevQuotes.length - 1].character.name
       // checks if the current quote is a duplicate of any previous quotes
-      if ((response.data.sentence === prevQuotes[i].sentence) || (response.data.character.name === prevQuotes[prevQuotes.length - 1].character.name)) {
+      if ((resp.data.sentence === prevQuotes[i].sentence) || (resp.data.character.name === lastQuoteChara)) {
         i = 0
-        response = await axios.get(URL);
-        x++     // protects against infinate loops if too many quotes have been requested.
+        resp = await axios.get(URL);
+        x++         // protects against infinite loops. If too many duplicate quotes have been requested.
       } else {
         i++
       }
     }
-    if (x >= 10 || score == -10) {
-      document.querySelector('p').innerText = " There are no more quotes. You have lost.";
-      document.querySelector('#score').innerText = 'Lost!!!';
-      gameEnd();
-    }
+    // storing previous quote to protect against duplicates quotes
+    prevQuotes.push(resp.data);
+    localStorage.prevQuotes = JSON.stringify(prevQuotes);
 
-    return response.data;
+    displayQuote(resp.data);
+    checkChar(resp.data);
+    return resp.data;
   } catch (error) {
     console.error(`You have an error. Please clean it up ${error}`)
-  }
-}
-
-
-// stores the random quote data in a variable and passes it to multiple functions
-const getQuote = async () => {
-  //fading the images and clears them
-  document.querySelector('#quote').style.opacity = "0";
-  let loader = document.querySelector('#loader');
-  loader.style.display = 'block';
-  loader.style.opacity = '1.0';
-  const data = await randomQuote();
-  // storing previous quote to protect against duplicates quotes
-  prevQuotes.push(data);
-  localStorage.prevQuotes = JSON.stringify(prevQuotes);
-  loader.style.opacity = '0';
-  setTimeout(() => { loader.style.display = 'none' }, 200);
-  displayQuote(data);
-  checkChar(data);
-  // checks if you just won and needs to reset the scoreboard
-  if (document.querySelector('#start').innerText != 'next quote') {
-    let checkScore = document.querySelector('#score');
-    if (checkScore.innerText === 'WIN!!!') {
-      clearInterval(winInterval);
-      // resets array storing used quotes
-      checkScore.innerText = score;
-      checkScore.style.color = 'rgb(255, 238, 0)';
-    }
-    document.querySelector('#start').innerText = 'next quote';
   }
 }
 
@@ -315,6 +303,10 @@ const nextQuote = () => {
   if (document.querySelector('.largeImg')) {
     document.querySelector('.largeImg').style.opacity = "0";
   }
+  document.querySelector('#quote').style.opacity = "0";
+  let loader = document.querySelector('section');
+  // sets loading SVG while waiting for the next quote
+  loader.style.background = "url(./img/loading-slow.svg) center/contain no-repeat";
   // timeout needed for transition effects to finish
   setTimeout(() => {
     let img = document.querySelectorAll('img');
@@ -330,8 +322,9 @@ const nextQuote = () => {
       newImg.style.opacity = "0";
       newImg.style.display = "block";
     }
-    getQuote();
-  }, 200)
+    // retrieves and displays the next random quote
+    randomQuote();
+  }, 550)
 }
 
 
