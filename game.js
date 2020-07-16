@@ -1,11 +1,26 @@
-//
 //global array for character choices on screen
+const locStore = window.localStorage;
 const choiceArr = new Array(4);
 const charListFull = [];
-const prevQuote = [];
+console.log(locStore.prevQuote);
+let emptyArr = [];
+if (locStore.prevQuote === undefined) {
+  locStore.prevQuote = JSON.stringify(emptyArr);
+}
+const prevQuote = JSON.parse(locStore.prevQuote);
+console.log(prevQuote);
+
 //global variable for score
 let score = 0;
-let interval;
+if (locStore.score) {
+  score = Number(locStore.score);
+  document.querySelector('#score').innerText = score;
+}
+console.log(locStore.score);
+let winningScore = 10;
+let interval;   // used later for flashing WIN!! on screen
+
+
 //downloads all characters and returns an array 
 const charImageList = async () => {
   try {
@@ -31,34 +46,31 @@ const charImageList = async () => {
     allCharObj.data.splice(97, 1);
     allCharObj.data.splice(92, 1);
     allCharObj.data.splice(90, 1);
-    //console.log("allCharObj", allCharObj.data);
     for (let i of allCharObj.data) {
       charListFull.push(i);
     }
     console.log("charListFull", charListFull);
-    //charListFull = allCharObj.data;
   } catch (error) {
     console.error(`you have an error${error}`)
   }
 }
 charImageList();
 
+
+
 const randomQuote = async () => {
   const URL = `https://game-of-thrones-quotes.herokuapp.com/v1/random`;
   try {
     let response = await axios.get(URL);
     let i = 0;
-    console.log(prevQuote)
+    console.log(prevQuote);
     while (i < prevQuote.length) {
-      console.log(`previous quote ${i} - ${prevQuote[i].character.name}`, `retrieved quote - ${response.data.character.name}`);
       if ((response.data.sentence === prevQuote[i].sentence) || (response.data.character.name === prevQuote[prevQuote.length - 1].character.name)) {
-        console.log(`DUPLICATE ${i}`, response.data, prevQuote[i], prevQuote[prevQuote.length - 1].character.name, prevQuote.length - 1);
         i = 0
         response = await axios.get(URL);
       } else {
         i++
       }
-
     }
     return response.data;
   } catch (error) {
@@ -66,28 +78,29 @@ const randomQuote = async () => {
   }
 }
 
+
+
 const win = () => {
   flashScore = document.querySelector('#score');
   flashScore.style.color = flashScore.style.color == 'red' ? 'black' : 'red';
 }
+
+
 
 // checks correct answer and displays the appropriate text
 const answer = (data, correct) => {
   // makes the next quote button visable again
   document.querySelector('#button').style.display = 'block';
   document.querySelector('#button').style.opacity = "1";
-
   let img = document.querySelectorAll('img');
   let x;       //correct image index stored in x
   for (let i = 0; i < img.length; i++) {
-
     if (data.image == img[i].src) {
       img[i].classList.add("largeImg");
       x = i;        // storing the correct answer image index
     } else {
       img[i].classList.add("smallImg");
       img[i].style.opacity = "0";
-      //setTimeout(() => { img[i].style.display = 'none'; }, 200);
     }
   }
   // increasing the width of the parent of the correct answer image
@@ -150,20 +163,25 @@ const answer = (data, correct) => {
   descText = `${pronoun} ${pluralTitles} ${allTitles}`
   document.querySelector('p').innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`
   // check if you win
-  if (score === 10) {
+  if (score === winningScore) {
     document.querySelector('#score').innerText = 'WIN!!!';
-    score = 0
+    score = 0;
     document.querySelector('#start').innerText = 'play again?';
     interval = setInterval(win, 500);
   } else {
     document.querySelector('#score').innerText = score;
   }
+  console.log(score);
+  locStore.score = score;
 }
+
 
 
 const rand = (max) => {
   return Math.floor(Math.random() * max);
 }
+
+
 
 // retrieves character information and displays incorrect information
 const choices = async (name) => {
@@ -183,15 +201,11 @@ const choices = async (name) => {
     // storing the correct character data in the global array. May need it later
     choiceArr[ansLoc] = response.data;
     //retrieving a list of all the characters
-
-    //const allChar = await charImageList();
-    //console.log("charlistFull", charListFull);
     for (let i = 0; i < img.length; i++) {
       let image = img[i];
       //will stay in loop until global array is filled with 4 different characters
       while (choiceArr[i] == undefined) {
         let x = rand(charListFull.length);
-
         let isDup = false;
         for (let y = 0; y < img.length; y++) {
           // need to check for undefined since the comparison below needs a value
@@ -205,7 +219,6 @@ const choices = async (name) => {
         // only fills in the global array if not a duplicate. 
         // Which gets you one step closer to exiting the loop
         // also checking for missing image keys and duplicates
-        //console.log(choiceArr[i])
         if (isDup !== true && ('image' in charListFull[x]) && !(charListFull[x].image == '')) {
           image.src = charListFull[x].image;
           choiceArr[i] = charListFull[x];
@@ -219,7 +232,6 @@ const choices = async (name) => {
     for (let i = 0; i < img.length; i++) {
       img[i].style.opacity = "1.0";
     }
-    //return response.data
   } catch (error) {
     console.error(`Hey you got an error${error}`)
   }
@@ -242,7 +254,6 @@ const checkChar = (data) => {
   } else if (name === 'Olenna Tyrell') {
     name = "Olenna Redwyne"
   }
-  //console.log(name);
   choices(name);
 }
 // displays the random quote
@@ -263,7 +274,6 @@ const nextQuote = () => {
     document.querySelector('#imgs2').classList.remove('width-auto', 'width-0');
     for (let i = 0; i < img.length; i++) {
       delete choiceArr[i];
-
       // have to delete the img elemtents and recreate them to clear all the eventListeners. 
       // Trust me this is the fastest way Learned this technique from "BenD"
       // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
@@ -273,27 +283,24 @@ const nextQuote = () => {
       img[i].remove();
       newImg.style.opacity = "0";
       newImg.style.display = "block";
-
       // opacity is 0 at this point so making the display visible is OK
-      //console.log(newImg);
     }
     getQuote();
   }, 200)
 }
 
-const getQuote = async () => {
 
-  //console.log('choiceArr', choiceArr);
+
+const getQuote = async () => {
   //fading the images and clears them
   document.querySelector('#quote').style.opacity = "0";
   const data = await randomQuote();
   // storing previous quote to protect against duplicates quotes
   prevQuote.push(data);
-  //console.log(prevQuote);
 
   displayQuote(data);
   checkChar(data);
-  // checks if you just won and need to reset the scoreboard
+  // checks if you just won and needs to reset the scoreboard
   if (document.querySelector('#start').innerText != 'next quote') {
     let checkScore = document.querySelector('#score');
     if (checkScore.innerText === 'WIN!!!') {
@@ -302,12 +309,14 @@ const getQuote = async () => {
       while (prevQuote.length > 0) {
         prevQuote.pop();
       }
+
       checkScore.innerText = score;
       checkScore.style.color = 'rgb(255, 238, 0)';
     }
     document.querySelector('#start').innerText = 'next quote';
   }
+  localStorage.prevQuote = JSON.stringify(prevQuote);
 }
 
+
 document.querySelector('#button').addEventListener('click', nextQuote);
-//})
