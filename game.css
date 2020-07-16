@@ -65,6 +65,11 @@ h3{
   width: 100%;
   border-radius: 5px;
 }
+
+.end {
+  color: red;
+}
+
 h4 {
   font-size: 3vmin;
   display: inline-block;
@@ -74,6 +79,7 @@ h4 {
 
 #score{
   font-size: 4vmin;
+  
 }
 
 #quote {
@@ -248,6 +254,7 @@ section {
 .largeImg {
   height: 500px;
   width: auto;
+}
 }
 @media (orientation: landscape) and (min-height: 1050px) {
   img{
