@@ -160,7 +160,40 @@ When folling the link, in the top menu bar towards the left, please change betwe
 | Total | H | 30hrs| 34hrs | 0hrs |
 
 ## Code Snippet
+```
+if (localStorage.prevQuotes === undefined) {
+  localStorage.prevQuotes = JSON.stringify([]);
+}
+const prevQuotes = JSON.parse(localStorage.prevQuotes);
 
+const randomQuote = async () => {
+  const URL = `https://game-of-thrones-quotes.herokuapp.com/v1/random`;
+  try {
+    let resp = await axios.get(URL);
+    let i = 0;
+    let x = 0;      // protects against infinite loops. If too many duplicate quotes have been requested.
+    while (i < prevQuotes.length || x >= 10) {
+      let lastQuoteChara = prevQuotes[prevQuotes.length - 1].character.name
+      // checks if the current quote is a duplicate of any previous quotes
+      if ((resp.data.sentence === prevQuotes[i].sentence) || (resp.data.character.name === lastQuoteChara)) {
+        i = 0
+        resp = await axios.get(URL);
+        x++         // protects against infinite loops. If too many duplicate quotes have been requested.
+      } else {
+        i++
+      }
+    }
+    // storing previous quote to protect against duplicates quotes
+    prevQuotes.push(resp.data);
+    localStorage.prevQuotes = JSON.stringify(prevQuotes);
+    displayQuote(resp.data);
+    checkChar(resp.data);
+    return resp.data;
+  } catch (error) {
+    console.error(`You have an error. Please clean it up ${error}`)
+  }
+}
+```
 TBA
 
 ## Change Log
