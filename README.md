@@ -133,11 +133,12 @@ When folling the link, in the top menu bar towards the left, please change betwe
 |  Day | Deliverable | Status
 |---|---| ---|
 |July 10-12| Prompt / Wireframes / Priority Matrix / Timeframes | Complete
-|July 13| Project Approval | Completed
-|July 13| Core Application Structure (HTML, CSS, etc.) | Completed
+|July 13| Project Approval | Complete
+|July 13| Core Application Structure (HTML, CSS, etc.) | Complete
 |July 14| Pseudocode / Javascript functionality | Completed
 |July 14| Fine tune interface and functionality | Complete
-|July 16| MVP | Complete
+|July 15| MVP | Complete
+|July 15| PMV(checking for Duplicates and Local Storage)| Complete
 |July 17| Presentations | Incomplete
 
 ## Priority Matrix
