@@ -11,11 +11,7 @@ html, body{
   flex-wrap: wrap;
   height: 100%;
   width: 100%;
-  background-image: url("./img/dragon-fire.jpeg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
+  background: url("./img/dragon-fire.jpeg") center/cover fixed no-repeat;
   color:  rgb(255, 230, 0);
   font-family: 'Game of Thrones';
 }

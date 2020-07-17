@@ -84,15 +84,16 @@ const answer = (data, correct) => {
   let asides = document.querySelectorAll('aside');
   for (let i = 0; i < asides.length; i++) {
     if (asides[i] === correctAside) {
-      asides[i].classList.add("width-auto");  // allows the aside with the correct image to grow
+      asides[i].classList.add("width-auto");  // Allows the parent of the correct image to grow
     } else {
       asides[i].classList.add("width-0");   // shrinks the size of the parent of the wrong answers
     }
   }
   // cloning the node to remove the event listener on the large image. Learned this technique from "BenD"
   // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+  //settimeout to allow for animations to continue before removing the old image
   let newImg = img[x].cloneNode();
-  setTimeout(() => { correctAside.replaceChild(newImg, img[x]); }, 200); //settimeout to allow for animations
+  setTimeout(() => { correctAside.replaceChild(newImg, img[x]); }, 200);
   // creating variables used to generate the answer text
   let descText;
   let isCorrect;
