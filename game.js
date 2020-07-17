@@ -169,7 +169,7 @@ const rand = (max) => {
 }
 
 
-// retrieves character information and displays incorrect information
+// retrieves character information and displays character images
 const choices = async (name) => {
   try {
     const charURL = `https://api.got.show/api/show/characters/${name}`;
