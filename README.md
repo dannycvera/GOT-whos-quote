@@ -2,6 +2,8 @@
 
 ## Game Of Thrones Quote Game
 
+[Game of Thrones - Quote Game](https://pages.git.generalassemb.ly/danv/GOT-quote-game/)
+
 ## Project Description
 
 Which character from Game of Thrones is the author of the random quote?
