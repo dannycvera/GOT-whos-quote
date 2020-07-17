@@ -201,8 +201,8 @@ July 12th
 - prototyping and Project overview
 
 July 13th
-- created a basic layout in HTML and CSS for mobile portrait and landscape
-- wrote Javascript to handle the basic functionality  Displaying all Character choices and retrieving quotes from API
+- Created a basic layout in HTML and CSS for mobile portrait and landscape
+- Wrote Javascript to handle the basic functionality. Able to display character choices and retrieving quotes from API
 
 July 14th
 - Fixing layout, set images to standard heights. 
@@ -218,11 +218,12 @@ July 15th
 - Fixed CSS issues with flex box
 - added media queries for different screen sizes
 - Added javascript to avoid duplicating previously downloaded quotes.
-- Javascript to prevent using downloading quotes from the same character twice in a row.
+- Wrote javascript to prevent using downloading quotes from the same character twice in a row.
 - Fixed image fade out issues in javascript and CSS
 - added local storage of score and previously used quotes. They all get reset when the game is won.
 - At this point the visual layout is ready for presentation
+
 July 16th
 - Set parameters for losing the game
 - added a loading SVG image in case of network speed issues
-- code cleanup
+- code cleanup and updated code comments
