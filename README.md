@@ -153,11 +153,11 @@ When folling the link, in the top menu bar towards the left, please change betwe
 | CSS| H | 5hrs| 6hrs | 0hrs |
 | Working with API | H | 4hrs| 4hrs | 0hrs |
 | Javascript(random character image) | H | 4hrs| 7hrs | 0hrs |
-| Javascript(scoring system) | H | 4hrs| 5hrs | 0hrs |
+| Javascript(scoring system) | H | 4hrs| 6hrs | 0hrs |
 | PMVP - Change Layout to landscape | M | 4hrs| 4.5hrs | 0hrs |
-| CSS/JS - transition effects | L | 3hrs| 2hrs | 0hrs |
+| CSS/JS - transition effects | L | 3hrs| 5hrs | 0hrs |
 | Local Storage for scores | L | 4hrs| 3hrs | 0hrs |
-| Total | H | 30hrs| 34hrs | 0hrs |
+| Total | H | 30hrs| 38hrs | 0hrs |
 
 ## Code Snippet
 ```
@@ -194,8 +194,36 @@ const randomQuote = async () => {
   }
 }
 ```
-TBA
 
 ## Change Log
 
-TBA
+July 12th
+- prototyping and Project overview
+
+July 13th
+- Created a basic layout in HTML and CSS for mobile portrait and landscape
+- Wrote Javascript to handle the basic functionality. Able to display character choices and retrieving quotes from API
+
+July 14th
+- Fixing layout, set images to standard heights. 
+- Added Game of Thrones freeware font. Set font sizing. 
+- Added background image.
+- Added Javascript for keeping score and checking for win conditions
+- Generate dynamic text for displaying character info after a choice is made. 
+- Removing event listeners after a user makes a choice. 
+- Loaded the full list of characters to a global variable that persists between functions. Saving bandwidth and reducing API calls.
+- app is function complete
+
+July 15th
+- Fixed CSS issues with flex box
+- added media queries for different screen sizes
+- Added javascript to avoid duplicating previously downloaded quotes.
+- Wrote javascript to prevent using downloading quotes from the same character twice in a row.
+- Fixed image fade out issues in javascript and CSS
+- added local storage of score and previously used quotes. They all get reset when the game is won.
+- At this point the visual layout is ready for presentation
+
+July 16th
+- Set parameters for losing the game
+- added a loading SVG image in case of network speed issues
+- code cleanup and updated code comments
