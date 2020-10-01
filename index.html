@@ -1,46 +1,57 @@
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GOT Quote Game</title>
+    <!--Game of thrones font https://github.com/grokify/webfonts Free for commercial use -->
+    <link rel="stylesheet" href="./game-of-thrones/GameofThrones.css" />
+    <link rel="stylesheet" href="game.css" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script defer src="./game.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GOT Quote Game</title>
-  <!--Game of thrones font https://github.com/grokify/webfonts Free for commercial use -->
-  <link rel="stylesheet" href="./game-of-thrones/GameofThrones.css">
-  <link rel="stylesheet" href="game.css">
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script defer src='./game.js'></script>
-</head>
-
-<body>
-  <aside id="imgs1">
-    <img src="" alt="">
-    <img src="" alt="">
-  </aside>
-  <main>
-    <header>
-      <div id="title">
-        <h1>#</h1>
-        <h3>Who authored that incendiary quote<span>?</span></h3>
-        <div id="scoreBoard">
-          <h4>Score</h4>
-          <h4 id="score">0</h4>
+  <body>
+    <aside id="imgs1">
+      <img class="choice-img" src="" alt="" />
+      <img class="choice-img" src="" alt="" />
+    </aside>
+    <main>
+      <header>
+        <div id="title">
+          <h1>#</h1>
+          <h3>Who authored that incendiary quote<span>?</span></h3>
+          <div id="scoreBoard">
+            <h4>Score</h4>
+            <h4 id="score">0</h4>
+          </div>
         </div>
-      </div>
-      <div id="button">
-        <h5 id='start'>click to start</h5>
-      </div>
-    </header>
-    <section>
-      <p id="quote">Choose the photo of the character who you believe authored the quote.<br>Click the red button to
-        start!!
-      </p>
-      <div id='loader'></div>
-    </section>
-  </main>
-  <aside id="imgs2">
-    <img src="" alt="">
-    <img src="" alt="">
-  </aside>
-</body>
-
+        <div id="button">
+          <h5 id="start">click to start</h5>
+        </div>
+      </header>
+      <section>
+        <p id="quote">
+          Choose the photo of the character who you believe authored the
+          quote.<br />Click the red button to start!!
+        </p>
+        <div id="loader"></div>
+      </section>
+    </main>
+    <aside id="imgs2">
+      <img class="choice-img" src="" alt="" />
+      <img class="choice-img" src="" alt="" />
+    </aside>
+    <footer>
+      <a href="https://github.com/dannycvera" class="github" target="_blank">
+        <img class="github-icon" src="./img/github-white.svg" />
+      </a>
+      <a
+        href="https://www.linkedin.com/in/daniel-vera-65bbb07/"
+        class="linkedin"
+        target="_blank"
+      >
+        <img class="linkedin-icon" src="./img/linkedIn-logo.png" />
+      </a>
+    </footer>
+  </body>
 </html>

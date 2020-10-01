@@ -2,7 +2,8 @@
   box-sizing: border-box;
 }
 
-html, body{
+html,
+body {
   display: flex;
   justify-content: center;
   text-align: center;
@@ -12,8 +13,8 @@ html, body{
   height: 100%;
   width: 100%;
   background: url("./img/dragon-fire.jpeg") center/cover fixed no-repeat;
-  color:  rgb(255, 230, 0);
-  font-family: 'Game of Thrones';
+  color: rgb(255, 230, 0);
+  font-family: "Game of Thrones";
 }
 
 main {
@@ -24,8 +25,7 @@ main {
   width: 100%;
   height: 40%;
   order: 1;
-  transition: .2s linear;
-
+  transition: 0.2s linear;
 }
 
 header {
@@ -36,7 +36,8 @@ header {
 }
 
 /* title begin */
-#title, #quote{
+#title,
+#quote {
   margin: 5px;
   padding: 4px;
   border: 3px solid firebrick;
@@ -48,15 +49,18 @@ span {
   font-size: 4.5vmin;
 }
 
-h1{
+h1 {
   font-size: 6vmin;
-
 }
-h1,h3,h4,p, h5{
+h1,
+h3,
+h4,
+p,
+h5 {
   margin: 5px auto;
 }
 
-h3{
+h3 {
   font-size: 3vmin;
 }
 /* title end */
@@ -81,11 +85,10 @@ h4 {
 
 /* in the GOT font, Numbers are really small. 
 Needed to make them bigger*/
-#score{
+#score {
   font-size: 4vmin;
 }
 /* scoring end */
-
 
 /* button begin */
 #start {
@@ -97,13 +100,13 @@ Needed to make them bigger*/
   margin: 0 auto;
   width: 200px;
   border-radius: 5px;
-  border: 4px solid rgba(0, 0, 0, .5);
+  border: 4px solid rgba(0, 0, 0, 0.5);
   background-color: rgb(159, 1, 1);
-  transition: .2s linear;
+  transition: 0.2s linear;
 }
 
 #button:active {
-  transform: scale(.95);
+  transform: scale(0.95);
 }
 /* button end */
 
@@ -116,13 +119,13 @@ section {
   height: 50%;
   width: 100%;
   align-items: center;
-  padding: 0; 
+  padding: 0;
 }
 
 /* quote text end */
 
 /* images begin */
-aside{
+aside {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -130,18 +133,18 @@ aside{
   justify-content: space-around;
   width: 50%;
   height: 60%;
-  transition: .2s linear;
+  transition: 0.2s linear;
 }
 
-.width-auto{
+.width-auto {
   width: auto;
 }
 
-.width-0{
+.width-0 {
   width: 10;
 }
 
-#imgs1{
+#imgs1 {
   order: 2;
 }
 
@@ -149,19 +152,20 @@ aside{
   order: 3;
 }
 
-img {
+.choice-img {
   display: none;
   margin: 0 auto;
   height: 150px;
   width: auto;
   box-shadow: 3px 3px 20px black;
-  transition: .2s linear;
+  transition: 0.2s linear;
   margin: 2px auto;
   border: 2px solid white;
+  z-index: 1;
 }
 
-img:active{
-  transform: scale(.99);
+.choice-img:active {
+  transform: scale(0.99);
   box-shadow: 1px 1px 15px black;
 }
 
@@ -175,34 +179,55 @@ img:active{
   width: 1;
 }
 /* images end */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 150px;
+  z-index: 0;
+  /* width: 100px; */
+  /* display: flex; */
+}
 
+.social-bar {
+  height: 80px;
+  margin-top: 30px;
+}
 
+.linkedin-icon {
+  z-index: -1;
+}
+
+.github-icon {
+  z-index: -1;
+  width: 40px;
+  margin: 0px 10px 4px 10px;
+}
 @media (min-height: 900px) {
   header {
     align-self: center;
     height: 50%;
   }
 
-  #start{
+  #start {
     font-size: 18px;
   }
 
-  #button{
+  #button {
     height: 40px;
     width: 300px;
     padding: 2px;
   }
 
-  img{
+  .choice-img {
     height: 250px;
     width: auto;
   }
 
-  .largeImg{
+  .largeImg {
     height: 350px;
   }
 
-  section{
+  section {
     height: 20%;
     width: 100%;
     align-items: center;
@@ -210,89 +235,88 @@ img:active{
 }
 
 @media (min-height: 1150px) {
-#start{
-  font-size: 18px;
-}
+  #start {
+    font-size: 18px;
+  }
 
-#button{
-  height: 60px;
-  width: 300px;
-  padding: 10px;
-}
+  #button {
+    height: 60px;
+    width: 300px;
+    padding: 10px;
+  }
 }
 
 @media (orientation: portrait) and (min-height: 750px) {
-  img{
+  .choice-img {
     height: 200px;
     width: auto;
   }
 }
 
 @media (orientation: portrait) and (min-height: 850px) {
-  img{
+  .choice-img {
     height: 250px;
     width: auto;
   }
 }
 
 @media (orientation: portrait) and (min-height: 1150px) {
-  img{
+  .choice-img {
     height: 350px;
     width: auto;
   }
-  
-  .largeImg{
+
+  .largeImg {
     height: 500px;
   }
 }
 
-@media (orientation: landscape){
+@media (orientation: landscape) {
   #imgs1 {
     order: 0;
   }
   #imgs2 {
     order: 3;
   }
-  main{
+  main {
     height: 100%;
     max-width: 50%;
   }
-  header{
+  header {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
     height: 50%;
   }
-  section{
+  section {
     height: 50%;
     width: 100%;
     align-items: center;
   }
-  aside{
+  aside {
     height: 100%;
     width: 25%;
   }
 }
 
 @media (orientation: landscape) and (min-height: 660px) {
-  img{
+  .choice-img {
     height: 300px;
     width: auto;
-
-}
-.largeImg {
-  height: 500px;
-  width: auto;
-}
+  }
+  .largeImg {
+    height: 500px;
+    width: auto;
+  }
 }
 
 @media (orientation: landscape) and (min-height: 1050px) {
-  img{
+  .choice-img {
     height: 400px;
     width: auto;
   }
-  .largeImg{
+  .largeImg {
     height: 600px;
   }
 }

@@ -2,13 +2,13 @@
 //
 // scoring
 const winningScore = 5;
-const losingScore = -5
+const losingScore = -5;
 let score = 0;
-let winInterval;   // used later for flashing WIN!! on screen
+let winInterval; // used later for flashing WIN!! on screen
 // global local storage of the current score
 if (localStorage.score) {
   score = Number(localStorage.score);
-  document.querySelector('#score').innerText = score;
+  document.querySelector("#score").innerText = score;
 }
 // global local storage of previously viewed quotes
 if (localStorage.prevQuotes === undefined) {
@@ -31,12 +31,10 @@ const charImageList = async () => {
       charListFull.push(i);
     }
   } catch (error) {
-    console.error(`you have an error${error}`)
+    console.error(`you have an error${error}`);
   }
-}
+};
 charImageList();
-
-
 
 // resets the score and previous quotes array and flashes the game result text
 const gameEnd = () => {
@@ -46,54 +44,55 @@ const gameEnd = () => {
     prevQuotes.pop();
   }
   localStorage.prevQuotes = JSON.stringify(prevQuotes);
-  document.querySelector('#start').innerText = 'play again?';
+  document.querySelector("#start").innerText = "play again?";
   // sets the word 'WIN!!!' to change color repeatedly
   winInterval = setInterval(() => {
-    let scoreWin = document.querySelector('#score');
+    let scoreWin = document.querySelector("#score");
     //scoreWin.classList.toggle('end');
-    if (scoreWin.classList.contains('end')) {
-      scoreWin.classList.remove('end');
+    if (scoreWin.classList.contains("end")) {
+      scoreWin.classList.remove("end");
     } else {
-      scoreWin.classList.add('end');
+      scoreWin.classList.add("end");
     }
   }, 450);
-}
-
-
+};
 
 // checks if the answer is correct and displays the appropriate text
 const answer = (data, correct) => {
   // makes the next quote button visable again
-  document.querySelector('#button').style.display = 'block';
-  document.querySelector('#button').style.opacity = "1";
-  let img = document.querySelectorAll('img');
-  let x;       // correct image index stored in x
+  document.querySelector("#button").style.display = "block";
+  document.querySelector("#button").style.opacity = "1";
+  let img = document.querySelectorAll(".choice-img");
+  let x; // correct image index stored in x
   for (let i = 0; i < img.length; i++) {
-    // checks for the correct image by comparing 
+    // checks for the correct image by comparing
     // the src url's to the .image property from the data passed
     if (data.image == img[i].src) {
-      img[i].classList.add("largeImg");  //making the correct answer larger
-      x = i;        // storing the correct answer image index
-    } else {        // wrong answers shrink and fade out
+      img[i].classList.add("largeImg"); //making the correct answer larger
+      x = i; // storing the correct answer image index
+    } else {
+      // wrong answers shrink and fade out
       img[i].classList.add("smallImg");
       img[i].style.opacity = "0";
     }
   }
   // increasing the width of the parent of the correct answer image
   let correctAside = img[x].parentElement;
-  let asides = document.querySelectorAll('aside');
+  let asides = document.querySelectorAll("aside");
   for (let i = 0; i < asides.length; i++) {
     if (asides[i] === correctAside) {
-      asides[i].classList.add("width-auto");  // Allows the parent of the correct image to grow
+      asides[i].classList.add("width-auto"); // Allows the parent of the correct image to grow
     } else {
-      asides[i].classList.add("width-0");   // shrinks the size of the parent of the wrong answers
+      asides[i].classList.add("width-0"); // shrinks the size of the parent of the wrong answers
     }
   }
   // cloning the node to remove the event listener on the large image. Learned this technique from "BenD"
   // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
   //settimeout to allow for animations to continue before removing the old image
   let newImg = img[x].cloneNode();
-  setTimeout(() => { correctAside.replaceChild(newImg, img[x]); }, 200);
+  setTimeout(() => {
+    correctAside.replaceChild(newImg, img[x]);
+  }, 200);
   // creating variables used to generate the answer text
   let descText;
   let isCorrect;
@@ -104,35 +103,35 @@ const answer = (data, correct) => {
   let alive;
   // checks if the "correct" parameter is true.
   if (correct) {
-    isCorrect = 'CORRECT!!!'
+    isCorrect = "CORRECT!!!";
     score += 1;
   } else {
-    isCorrect = 'INCORRECT!!!'
+    isCorrect = "INCORRECT!!!";
     score -= 1;
   }
   // checks if male or female from the passed data
-  if (data.gender === 'male') {
-    pronoun = 'His'
+  if (data.gender === "male") {
+    pronoun = "His";
   } else {
-    pronoun = 'Her'
+    pronoun = "Her";
   }
   // checks if alive from the passed data
   if (data.alive == true) {
-    tense = 'is';
-    alive = '';
+    tense = "is";
+    alive = "";
   } else {
-    tense = 'was';
+    tense = "was";
     alive = " And is no longer with us.";
   }
-  // checking if the character has more than one title. 
+  // checking if the character has more than one title.
   // Currently the API only sends one title when searching individually.
   // In the future if I devote more screen space to the text, I can list all their titles
   // by cross referencing with charListFull.titles
-  if (data.titles.length = 1) {
-    pluralTitles = 'title includes';
+  if ((data.titles.length = 1)) {
+    pluralTitles = "title includes";
     allTitles = data.titles;
   } else {
-    pluralTitles = 'titles include';
+    pluralTitles = "titles include";
     allTitles = data.titles[0];
     for (let i of data.titles) {
       if (i !== data.titles.length - 1) {
@@ -143,46 +142,46 @@ const answer = (data, correct) => {
     }
   }
   // puts all the variables together to generate the answer text
-  descText = `${pronoun} ${pluralTitles} ${allTitles}`
-  document.querySelector('p').innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`
+  descText = `${pronoun} ${pluralTitles} ${allTitles}`;
+  document.querySelector(
+    "p"
+  ).innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`;
   // check if you win then resets the score and empties the previous quotes array
   if (score === winningScore) {
-    document.querySelector('#score').innerText = 'WIN!!!';
+    document.querySelector("#score").innerText = "WIN!!!";
     gameEnd();
   } else if (score == losingScore) {
-    document.querySelector('p').innerHTML = "You have guessed wrong too many times.<br>You will now be burned alive!";
-    document.querySelector('#score').innerText = 'Lost!!!';
+    document.querySelector("p").innerHTML =
+      "You have guessed wrong too many times.<br>You will now be burned alive!";
+    document.querySelector("#score").innerText = "Lost!!!";
     gameEnd();
-
   } else {
     // otherwise just updates the score
-    document.querySelector('#score').innerText = score;
+    document.querySelector("#score").innerText = score;
   }
   // stores the score in the local storage in case your browser closes
   localStorage.score = score;
-}
-
+};
 
 // generates random whole numbers starting from zero to the parameter "max".
 const rand = (max) => {
   return Math.floor(Math.random() * max);
-}
-
+};
 
 // retrieves character information and displays character images
 const choices = async (name) => {
   try {
     const charURL = `https://api.got.show/api/show/characters/${name}`;
     const resp = await axios.get(charURL);
-    let img = document.querySelectorAll('img');
+    let img = document.querySelectorAll(".choice-img");
     // setting the image index of the correct answer
     let ansLoc = rand(img.length);
     img[ansLoc].src = resp.data.image;
     // calling the fuction "answer" to update score and display the appropriate text when correct
-    img[ansLoc].addEventListener('click', () => {
+    img[ansLoc].addEventListener("click", () => {
       answer(resp.data, true);
     });
-    //array to strore currently displayed characters 
+    //array to strore currently displayed characters
     const choiceArr = new Array(4);
     choiceArr[ansLoc] = resp.data;
     //retrieving a list of all the characters
@@ -203,11 +202,15 @@ const choices = async (name) => {
         }
         // If not a Duplicate you get one step closer to exiting the loop
         // also checking for missing image keys in the oject
-        if ((isDup !== true) && ('image' in charListFull[x]) && !(charListFull[x].image == '')) {
+        if (
+          isDup !== true &&
+          "image" in charListFull[x] &&
+          !(charListFull[x].image == "")
+        ) {
           image.src = charListFull[x].image;
           choiceArr[i] = charListFull[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
-          image.addEventListener('click', () => {
+          image.addEventListener("click", () => {
             answer(resp.data, false);
           });
         }
@@ -217,57 +220,56 @@ const choices = async (name) => {
       img[i].style.opacity = "1.0";
     }
   } catch (error) {
-    console.error(`Hey you got an error${error}`)
+    console.error(`Hey you got an error${error}`);
   }
-}
+};
 
-
-
-// checks and fixes names that dont match correctly 
+// checks and fixes names that dont match correctly
 // from the quotes database to the character data
 const checkChar = (data) => {
   let name = data.character.name;
   if (name === "Lord Varys") {
-    name = 'Varys';
-  } else if (name === 'Tormund') {
-    name = 'Tormund Giantsbane';
+    name = "Varys";
+  } else if (name === "Tormund") {
+    name = "Tormund Giantsbane";
   } else if (name === "Ramsay Bolton") {
     name = "Ramsay Snow";
   } else if (name === 'Eddard "Ned" Stark') {
-    name = 'Eddard Stark';
-  } else if (name === 'Brienne of Tharth') {
-    name = 'Brienne of Tarth';
-  } else if (name === 'Olenna Tyrell') {
-    name = "Olenna Redwyne"
+    name = "Eddard Stark";
+  } else if (name === "Brienne of Tharth") {
+    name = "Brienne of Tarth";
+  } else if (name === "Olenna Tyrell") {
+    name = "Olenna Redwyne";
   }
   choices(name);
-}
-
-
+};
 
 // displays the quote
 const displayQuote = (data) => {
   // clears loading SVG when next quote is about to be displayed
-  document.querySelector('section').removeAttribute('style', 'background');
-  document.querySelector('#quote').innerText = data.sentence;
-  document.querySelector('#quote').style.opacity = "1.0";
-  document.querySelector('#button').style.opacity = "0";
-  setTimeout(() => { document.querySelector('#button').style.display = 'none'; }, 200)
+  document.querySelector("section").removeAttribute("style", "background");
+  document.querySelector("#quote").innerText = data.sentence;
+  document.querySelector("#quote").style.opacity = "1.0";
+  document.querySelector("#button").style.opacity = "0";
+  setTimeout(() => {
+    document.querySelector("#button").style.display = "none";
+  }, 200);
 
   // checks if you just won and needs to reset the scoreboard
-  if (document.querySelector('#start').innerText != 'next quote') {
-    let checkScore = document.querySelector('#score');
-    if (checkScore.innerText === 'WIN!!!' || checkScore.innerText === 'Lost!!!') {
+  if (document.querySelector("#start").innerText != "next quote") {
+    let checkScore = document.querySelector("#score");
+    if (
+      checkScore.innerText === "WIN!!!" ||
+      checkScore.innerText === "Lost!!!"
+    ) {
       clearInterval(winInterval);
       // resets array storing used quotes
       checkScore.innerText = score;
-      document.querySelector('#score').classList.remove('end');
+      document.querySelector("#score").classList.remove("end");
     }
-    document.querySelector('#start').innerText = 'next quote';
+    document.querySelector("#start").innerText = "next quote";
   }
-}
-
-
+};
 
 // requests random quote from API
 const randomQuote = async () => {
@@ -275,16 +277,19 @@ const randomQuote = async () => {
   try {
     let resp = await axios.get(URL);
     let i = 0;
-    let x = 0;      // protects against infinite loops. If too many duplicate quotes have been requested.
+    let x = 0; // protects against infinite loops. If too many duplicate quotes have been requested.
     while (i < prevQuotes.length || x >= 10) {
-      let lastQuoteChara = prevQuotes[prevQuotes.length - 1].character.name
+      let lastQuoteChara = prevQuotes[prevQuotes.length - 1].character.name;
       // checks if the current quote is a duplicate of any previous quotes
-      if ((resp.data.sentence === prevQuotes[i].sentence) || (resp.data.character.name === lastQuoteChara)) {
-        i = 0
+      if (
+        resp.data.sentence === prevQuotes[i].sentence ||
+        resp.data.character.name === lastQuoteChara
+      ) {
+        i = 0;
         resp = await axios.get(URL);
-        x++         // protects against infinite loops. If too many duplicate quotes have been requested.
+        x++; // protects against infinite loops. If too many duplicate quotes have been requested.
       } else {
-        i++
+        i++;
       }
     }
     // storing previous quote to protect against duplicates quotes
@@ -294,31 +299,31 @@ const randomQuote = async () => {
     checkChar(resp.data);
     return resp.data;
   } catch (error) {
-    console.error(`You have an error. Please clean it up ${error}`)
+    console.error(`You have an error. Please clean it up ${error}`);
   }
-}
-
-
+};
 
 //resets images and clears global choiceArr
 const nextQuote = () => {
-  if (document.querySelector('.largeImg')) {
-    document.querySelector('.largeImg').style.opacity = "0";
+  if (document.querySelector(".largeImg")) {
+    document.querySelector(".largeImg").style.opacity = "0";
   }
-  document.querySelector('#quote').style.opacity = "0";
-  let loader = document.querySelector('section');
+  document.querySelector("#quote").style.opacity = "0";
+  let loader = document.querySelector("section");
   // sets loading SVG while waiting for the next quote
-  loader.style.background = "url(./img/loading-slow.svg) center/contain no-repeat";
+  loader.style.background =
+    "url(./img/loading-slow.svg) center/contain no-repeat";
   // timeout needed for transition effects to finish
   setTimeout(() => {
-    let img = document.querySelectorAll('img');
-    document.querySelector('#imgs1').classList.remove('width-auto', 'width-0');
-    document.querySelector('#imgs2').classList.remove('width-auto', 'width-0');
+    let img = document.querySelectorAll(".choice-img");
+    document.querySelector("#imgs1").classList.remove("width-auto", "width-0");
+    document.querySelector("#imgs2").classList.remove("width-auto", "width-0");
     for (let i = 0; i < img.length; i++) {
       img[i].style.opacity = "0";
-      // Deleting then recreasting the img elements to clear all the eventListeners. 
+      // Deleting then recreasting the img elements to clear all the eventListeners.
       // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-      let newImg = document.createElement('img');
+      let newImg = document.createElement("img");
+      newImg.classList.add("choice-img");
       img[i].parentElement.append(newImg);
       img[i].remove();
       newImg.style.opacity = "0";
@@ -326,9 +331,8 @@ const nextQuote = () => {
     }
     // retrieves and displays the next random quote
     randomQuote();
-  }, 550)
-}
-
+  }, 550);
+};
 
 // launches new quote and brings up four choices
-document.querySelector('#button').addEventListener('click', nextQuote);
+document.querySelector("#button").addEventListener("click", nextQuote);
