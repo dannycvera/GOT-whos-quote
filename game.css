@@ -15,6 +15,7 @@ body {
   background: url("./img/dragon-fire.jpeg") center/cover fixed no-repeat;
   color: rgb(255, 230, 0);
   font-family: "Game of Thrones";
+  overflow-x: hidden;
 }
 
 main {

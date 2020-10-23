@@ -62,22 +62,26 @@ const answer = (data, correct) => {
   // makes the next quote button visable again
   document.querySelector("#button").style.display = "block";
   document.querySelector("#button").style.opacity = "1";
-  let img = document.querySelectorAll(".choice-img");
+  let images = document.querySelectorAll(".choice-img");
   let x; // correct image index stored in x
-  for (let i = 0; i < img.length; i++) {
+  for (let i = 0; i < images.length; i++) {
     // checks for the correct image by comparing
     // the src url's to the .image property from the data passed
-    if (data.image == img[i].src) {
-      img[i].classList.add("largeImg"); //making the correct answer larger
+    if (data.image == images[i].src) {
+      images[i].classList.add("largeImg"); //making the correct answer larger
       x = i; // storing the correct answer image index
     } else {
       // wrong answers shrink and fade out
-      img[i].classList.add("smallImg");
-      img[i].style.opacity = "0";
+      images[i].classList.add("smallImg");
+      images[i].style.opacity = "0";
+      setTimeout(() => {
+        images[i].style.display = "none";
+      }, 200);
+      // images[i].style.display = "none";
     }
   }
   // increasing the width of the parent of the correct answer image
-  let correctAside = img[x].parentElement;
+  let correctAside = images[x].parentElement;
   let asides = document.querySelectorAll("aside");
   for (let i = 0; i < asides.length; i++) {
     if (asides[i] === correctAside) {
@@ -89,10 +93,18 @@ const answer = (data, correct) => {
   // cloning the node to remove the event listener on the large image. Learned this technique from "BenD"
   // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
   //settimeout to allow for animations to continue before removing the old image
-  let newImg = img[x].cloneNode();
-  setTimeout(() => {
-    correctAside.replaceChild(newImg, img[x]);
-  }, 200);
+  for (let i = 0; i < images.length; i++) {
+    images[i].onclick = () => {
+      false;
+    };
+  }
+  // images[x].onclick = () => {
+  //   false;
+  // };
+  // let newImg = img[x].cloneNode();
+  // setTimeout(() => {
+  //   correctAside.replaceChild(newImg, img[x]);
+  // }, 200);
   // creating variables used to generate the answer text
   let descText;
   let isCorrect;
@@ -173,25 +185,28 @@ const choices = async (name) => {
   try {
     const charURL = `https://api.got.show/api/show/characters/${name}`;
     const resp = await axios.get(charURL);
-    let img = document.querySelectorAll(".choice-img");
+    let images = document.querySelectorAll(".choice-img");
     // setting the image index of the correct answer
-    let ansLoc = rand(img.length);
-    img[ansLoc].src = resp.data.image;
+    let ansLoc = rand(images.length);
+    images[ansLoc].src = resp.data.image;
     // calling the fuction "answer" to update score and display the appropriate text when correct
-    img[ansLoc].addEventListener("click", () => {
+    // img[ansLoc].addEventListener("click", () => {
+    //   answer(resp.data, true);
+    // });
+    images[ansLoc].onclick = () => {
       answer(resp.data, true);
-    });
+    };
     //array to strore currently displayed characters
     const choiceArr = new Array(4);
     choiceArr[ansLoc] = resp.data;
     //retrieving a list of all the characters
-    for (let i = 0; i < img.length; i++) {
-      let image = img[i];
+    for (let i = 0; i < images.length; i++) {
+      let image = images[i];
       //will stay in loop until global array is filled with 4 different characters
       while (choiceArr[i] == undefined) {
         let x = rand(charListFull.length);
         let isDup = false;
-        for (let y = 0; y < img.length; y++) {
+        for (let y = 0; y < images.length; y++) {
           // need to check for undefined since the comparison below needs a value
           if (choiceArr[y] != undefined) {
             // checking for duplicates inside the global variable choiceArr
@@ -210,14 +225,18 @@ const choices = async (name) => {
           image.src = charListFull[x].image;
           choiceArr[i] = charListFull[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
-          image.addEventListener("click", () => {
+          // image.addEventListener("click", () => {
+          //   answer(resp.data, false);
+          // });
+          image.onclick = () => {
             answer(resp.data, false);
-          });
+          };
         }
       }
     }
-    for (let i = 0; i < img.length; i++) {
-      img[i].style.opacity = "1.0";
+    for (let i = 0; i < images.length; i++) {
+      // images[i].style.display = "block";
+      images[i].style.opacity = "1.0";
     }
   } catch (error) {
     console.error(`Hey you got an error${error}`);
@@ -315,19 +334,30 @@ const nextQuote = () => {
     "url(./img/loading-slow.svg) center/contain no-repeat";
   // timeout needed for transition effects to finish
   setTimeout(() => {
-    let img = document.querySelectorAll(".choice-img");
+    let images = document.querySelectorAll(".choice-img");
     document.querySelector("#imgs1").classList.remove("width-auto", "width-0");
     document.querySelector("#imgs2").classList.remove("width-auto", "width-0");
-    for (let i = 0; i < img.length; i++) {
-      img[i].style.opacity = "0";
+    // for (let i = 0; i < img.length; i++) {
+    //   img[i].style.opacity = "0";
+    //   // Deleting then recreasting the img elements to clear all the eventListeners.
+    //   // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
+    //   let newImg = document.createElement("img");
+    //   newImg.classList.add("choice-img");
+    //   img[i].parentElement.append(newImg);
+    //   img[i].remove();
+    //   newImg.style.opacity = "0";
+    //   newImg.style.display = "block";
+    // }
+    for (let i = 0; i < images.length; i++) {
+      images[i].style.opacity = "0";
       // Deleting then recreasting the img elements to clear all the eventListeners.
       // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-      let newImg = document.createElement("img");
-      newImg.classList.add("choice-img");
-      img[i].parentElement.append(newImg);
-      img[i].remove();
-      newImg.style.opacity = "0";
-      newImg.style.display = "block";
+      // let newImg = document.createElement("img");
+      // newImg.classList.add("choice-img");
+      // images[i].onclick = () => {
+      //   false;
+      // };
+      images[i].style.display = "block";
     }
     // retrieves and displays the next random quote
     randomQuote();
@@ -335,4 +365,5 @@ const nextQuote = () => {
 };
 
 // launches new quote and brings up four choices
-document.querySelector("#button").addEventListener("click", nextQuote);
+// document.querySelector("#button").addEventListener("click", nextQuote);
+document.querySelector("#button").onclick = nextQuote;
