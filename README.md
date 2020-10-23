@@ -2,7 +2,7 @@
 
 ## Game Of Thrones Quote Game
 
-[Game of Thrones - Quote Game](https://pages.git.generalassemb.ly/danv/GOT-quote-game/)
+[Game of Thrones - Quote Game](https://dannycvera.github.io/GOT-whos-quote/)
 
 ## Project Description
 
