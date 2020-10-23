@@ -30,7 +30,10 @@ const charImageList = async () => {
     const URL_ALL = `https://api.got.show/api/show/characters/`;
     const allCharObj = await axios.get(URL_ALL);
     for (let i = 0; i < allCharObj.data.length; i++) {
-      if (!(i === 91 || i === 92 || i === 97 || i === 146)) {
+      // if (!(i === 91 || i === 92 || i === 97 || i === 146)) {
+      //   charListFull.push(allCharObj.data[i]);
+      // }
+      if (i !== 91 && i !== 92 && i !== 97 && i !== 146) {
         charListFull.push(allCharObj.data[i]);
       }
     }
