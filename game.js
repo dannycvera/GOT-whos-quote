@@ -20,18 +20,31 @@ const charListFull = [];
 // downloads all characters and stores in a global variable charListFull
 const charImageList = async () => {
   try {
+    let newImg = new Image();
+    newImg.classList.add("loader");
+    newImg.src = "./img/loading-slow.svg";
+
+    let button = document.querySelector("#button");
+    button.insertAdjacentElement("beforebegin", newImg);
+
     const URL_ALL = `https://api.got.show/api/show/characters/`;
     const allCharObj = await axios.get(URL_ALL);
-    // removing records that I know have problems loading the images.
-    allCharObj.data.splice(146, 1);
-    allCharObj.data.splice(97, 1);
-    allCharObj.data.splice(92, 1);
-    allCharObj.data.splice(90, 1);
-    for (let i of allCharObj.data) {
-      charListFull.push(i);
+    for (let i = 0; i < allCharObj.data.length; i++) {
+      if (!(i === 91 || i === 92 || i === 97 || i === 146)) {
+        charListFull.push(allCharObj.data[i]);
+      }
     }
+
+    newImg.remove();
+    document.querySelector("#button").style.display = "block";
+
+    setTimeout(() => {
+      document.querySelector("#button").style.opacity = "1";
+    }, 200);
+    // launches new quote and brings up four choices
+    document.querySelector("#button").onclick = nextQuote;
   } catch (error) {
-    console.error(`you have an error${error}`);
+    console.error(`Hey, you have an error ${error}`);
   }
 };
 charImageList();
@@ -48,7 +61,6 @@ const gameEnd = () => {
   // sets the word 'WIN!!!' to change color repeatedly
   winInterval = setInterval(() => {
     let scoreWin = document.querySelector("#score");
-    //scoreWin.classList.toggle('end');
     if (scoreWin.classList.contains("end")) {
       scoreWin.classList.remove("end");
     } else {
@@ -89,9 +101,7 @@ const answer = (data, correct) => {
       asides[i].classList.add("width-0"); // shrinks the size of the parent of the wrong answers
     }
   }
-  // cloning the node to remove the event listener on the large image. Learned this technique from "BenD"
-  // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-  //settimeout to allow for animations to continue before removing the old image
+
   for (let i = 0; i < images.length; i++) {
     images[i].onclick = () => {
       false;
@@ -175,19 +185,24 @@ const rand = (max) => {
 // retrieves character information and displays character images
 const choices = async (name) => {
   try {
-    const charURL = `https://api.got.show/api/show/characters/${name}`;
-    const resp = await axios.get(charURL);
+    // const charURL = `https://api.got.show/api/show/characters/${name}`;
+    // const resp = await axios.get(charURL);
+    console.log(charListFull);
+    // console.log(resp);
+    const charObj = charListFull.find((obj) => obj.name === name);
+    console.log(charObj);
     let images = document.querySelectorAll(".choice-img");
     // setting the image index of the correct answer
     let ansLoc = rand(images.length);
-    images[ansLoc].src = resp.data.image;
+    images[ansLoc].src = charObj.image;
+    // images[ansLoc].src = resp.data.image;
     // calling the fuction "answer" to update score and display the appropriate text when correct
     images[ansLoc].onclick = () => {
-      answer(resp.data, true);
+      answer(charObj, true);
     };
     //array to strore currently displayed characters
     const choiceArr = new Array(4);
-    choiceArr[ansLoc] = resp.data;
+    choiceArr[ansLoc] = charObj;
     //retrieving a list of all the characters
     for (let i = 0; i < images.length; i++) {
       let image = images[i];
@@ -215,7 +230,7 @@ const choices = async (name) => {
           choiceArr[i] = charListFull[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
           image.onclick = () => {
-            answer(resp.data, false);
+            answer(charObj, false);
           };
         }
       }
@@ -333,6 +348,3 @@ const nextQuote = () => {
     randomQuote();
   }, 200);
 };
-
-// launches new quote and brings up four choices
-document.querySelector("#button").onclick = nextQuote;

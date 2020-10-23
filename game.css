@@ -30,7 +30,11 @@ main {
 }
 
 header {
-  align-self: flex-start;
+  display: flex;
+  /* align-self: flex-start; */
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
   padding: 0;
   width: 100%;
   height: 60%;
@@ -45,7 +49,9 @@ header {
   border-radius: 5px;
   background-color: rgba(97, 61, 0, 0.735);
 }
-
+#title {
+  margin-top: 10px;
+}
 span {
   font-size: 4.5vmin;
 }
@@ -97,6 +103,8 @@ Needed to make them bigger*/
 }
 
 #button {
+  display: none;
+  opacity: 0;
   color: rgb(255, 238, 0);
   margin: 0 auto;
   width: 200px;
@@ -180,6 +188,12 @@ aside {
   width: 1px !important;
 }
 /* images end */
+
+.loader {
+  height: 35%;
+  width: auto;
+}
+
 footer {
   position: fixed;
   bottom: 0;
@@ -287,8 +301,12 @@ footer {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     height: 50%;
+  }
+  #title {
+    margin-top: 75px;
   }
   section {
     height: 50%;
@@ -319,5 +337,11 @@ footer {
   }
   .largeImg {
     height: 600px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 660px) {
+  #title {
+    margin-top: 20px;
   }
 }
