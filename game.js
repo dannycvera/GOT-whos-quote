@@ -74,10 +74,9 @@ const answer = (data, correct) => {
       // wrong answers shrink and fade out
       images[i].classList.add("smallImg");
       images[i].style.opacity = "0";
-      setTimeout(() => {
-        images[i].style.display = "none";
-      }, 200);
-      // images[i].style.display = "none";
+      // setTimeout(() => {
+      //   images[i].style.display = "none";
+      // }, 250);
     }
   }
   // increasing the width of the parent of the correct answer image
@@ -98,13 +97,6 @@ const answer = (data, correct) => {
       false;
     };
   }
-  // images[x].onclick = () => {
-  //   false;
-  // };
-  // let newImg = img[x].cloneNode();
-  // setTimeout(() => {
-  //   correctAside.replaceChild(newImg, img[x]);
-  // }, 200);
   // creating variables used to generate the answer text
   let descText;
   let isCorrect;
@@ -190,9 +182,6 @@ const choices = async (name) => {
     let ansLoc = rand(images.length);
     images[ansLoc].src = resp.data.image;
     // calling the fuction "answer" to update score and display the appropriate text when correct
-    // img[ansLoc].addEventListener("click", () => {
-    //   answer(resp.data, true);
-    // });
     images[ansLoc].onclick = () => {
       answer(resp.data, true);
     };
@@ -225,9 +214,6 @@ const choices = async (name) => {
           image.src = charListFull[x].image;
           choiceArr[i] = charListFull[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
-          // image.addEventListener("click", () => {
-          //   answer(resp.data, false);
-          // });
           image.onclick = () => {
             answer(resp.data, false);
           };
@@ -235,7 +221,6 @@ const choices = async (name) => {
       }
     }
     for (let i = 0; i < images.length; i++) {
-      // images[i].style.display = "block";
       images[i].style.opacity = "1.0";
     }
   } catch (error) {
@@ -335,35 +320,19 @@ const nextQuote = () => {
   // timeout needed for transition effects to finish
   setTimeout(() => {
     let images = document.querySelectorAll(".choice-img");
-    document.querySelector("#imgs1").classList.remove("width-auto", "width-0");
-    document.querySelector("#imgs2").classList.remove("width-auto", "width-0");
-    // for (let i = 0; i < img.length; i++) {
-    //   img[i].style.opacity = "0";
-    //   // Deleting then recreasting the img elements to clear all the eventListeners.
-    //   // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-    //   let newImg = document.createElement("img");
-    //   newImg.classList.add("choice-img");
-    //   img[i].parentElement.append(newImg);
-    //   img[i].remove();
-    //   newImg.style.opacity = "0";
-    //   newImg.style.display = "block";
-    // }
     for (let i = 0; i < images.length; i++) {
+      // hiding the last shown image
+      images[i].classList.remove("largeImg", "smallImg");
       images[i].style.opacity = "0";
-      // Deleting then recreasting the img elements to clear all the eventListeners.
-      // https://stackoverflow.com/questions/9251837/how-to-remove-all-listeners-in-an-element
-      // let newImg = document.createElement("img");
-      // newImg.classList.add("choice-img");
-      // images[i].onclick = () => {
-      //   false;
-      // };
+      // need to get them ready for the next display of choices
       images[i].style.display = "block";
     }
+    document.querySelector("#imgs1").classList.remove("width-auto", "width-0");
+    document.querySelector("#imgs2").classList.remove("width-auto", "width-0");
     // retrieves and displays the next random quote
     randomQuote();
-  }, 550);
+  }, 200);
 };
 
 // launches new quote and brings up four choices
-// document.querySelector("#button").addEventListener("click", nextQuote);
 document.querySelector("#button").onclick = nextQuote;

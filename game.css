@@ -176,8 +176,8 @@ aside {
 }
 
 .smallImg {
-  height: 1;
-  width: 1;
+  height: 1px !important;
+  width: 1px !important;
 }
 /* images end */
 footer {
