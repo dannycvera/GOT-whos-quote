@@ -73,7 +73,7 @@ h3 {
 /* title end */
 
 /* scoring begin */
-#scoreBoard {
+#score-board {
   margin: 0 auto;
   width: 100%;
   border-radius: 5px;
@@ -178,12 +178,12 @@ aside {
   box-shadow: 1px 1px 15px black;
 }
 
-.largeImg {
+.large-img {
   height: 300px;
   width: auto;
 }
 
-.smallImg {
+.small-img {
   height: 1px !important;
   width: 1px !important;
 }

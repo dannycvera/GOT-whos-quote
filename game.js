@@ -20,31 +20,29 @@ const charListFull = [];
 // downloads all characters and stores in a global variable charListFull
 const charImageList = async () => {
   try {
+    // creates loading image that is only used once
     let newImg = new Image();
     newImg.classList.add("loader");
     newImg.src = "./img/loading-slow.svg";
-
     let button = document.querySelector("#button");
     button.insertAdjacentElement("beforebegin", newImg);
-
+    // downloads character list
     const URL_ALL = `https://api.got.show/api/show/characters/`;
     const allCharObj = await axios.get(URL_ALL);
+    // pushes each record into a global array.
+    // Excluding records I've personally determined are faulty.
     for (let i = 0; i < allCharObj.data.length; i++) {
-      // if (!(i === 91 || i === 92 || i === 97 || i === 146)) {
-      //   charListFull.push(allCharObj.data[i]);
-      // }
       if (i !== 91 && i !== 92 && i !== 97 && i !== 146) {
         charListFull.push(allCharObj.data[i]);
       }
     }
-
+    // kills loading SVG
     newImg.remove();
+    // Makes the start button visable and clickable
     document.querySelector("#button").style.display = "block";
-
     setTimeout(() => {
       document.querySelector("#button").style.opacity = "1";
     }, 200);
-    // launches new quote and brings up four choices
     document.querySelector("#button").onclick = nextQuote;
   } catch (error) {
     console.error(`Hey, you have an error ${error}`);
@@ -83,15 +81,12 @@ const answer = (data, correct) => {
     // checks for the correct image by comparing
     // the src url's to the .image property from the data passed
     if (data.image == images[i].src) {
-      images[i].classList.add("largeImg"); //making the correct answer larger
+      images[i].classList.add("large-img"); //making the correct answer larger
       x = i; // storing the correct answer image index
     } else {
       // wrong answers shrink and fade out
-      images[i].classList.add("smallImg");
+      images[i].classList.add("small-img");
       images[i].style.opacity = "0";
-      // setTimeout(() => {
-      //   images[i].style.display = "none";
-      // }, 250);
     }
   }
   // increasing the width of the parent of the correct answer image
@@ -188,17 +183,12 @@ const rand = (max) => {
 // retrieves character information and displays character images
 const choices = async (name) => {
   try {
-    // const charURL = `https://api.got.show/api/show/characters/${name}`;
-    // const resp = await axios.get(charURL);
-    console.log(charListFull);
-    // console.log(resp);
+    // retrieving character info from global character list
     const charObj = charListFull.find((obj) => obj.name === name);
-    console.log(charObj);
     let images = document.querySelectorAll(".choice-img");
     // setting the image index of the correct answer
     let ansLoc = rand(images.length);
     images[ansLoc].src = charObj.image;
-    // images[ansLoc].src = resp.data.image;
     // calling the fuction "answer" to update score and display the appropriate text when correct
     images[ansLoc].onclick = () => {
       answer(charObj, true);
@@ -210,16 +200,16 @@ const choices = async (name) => {
     for (let i = 0; i < images.length; i++) {
       let image = images[i];
       //will stay in loop until global array is filled with 4 different characters
-      while (choiceArr[i] == undefined) {
+      while (choiceArr[i] === undefined) {
         let x = rand(charListFull.length);
         let isDup = false;
         for (let y = 0; y < images.length; y++) {
-          // need to check for undefined since the comparison below needs a value
-          if (choiceArr[y] != undefined) {
-            // checking for duplicates inside the global variable choiceArr
-            if (charListFull[x].name === choiceArr[y].name) {
-              isDup = true;
-            }
+          // checking for duplicates inside the global variable choiceArr
+          if (
+            choiceArr[y] !== undefined &&
+            charListFull[x].name === choiceArr[y].name
+          ) {
+            isDup = true;
           }
         }
         // If not a Duplicate you get one step closer to exiting the loop
@@ -238,6 +228,7 @@ const choices = async (name) => {
         }
       }
     }
+    //make images visible
     for (let i = 0; i < images.length; i++) {
       images[i].style.opacity = "1.0";
     }
@@ -278,7 +269,7 @@ const displayQuote = (data) => {
   }, 200);
 
   // checks if you just won and needs to reset the scoreboard
-  if (document.querySelector("#start").innerText != "next quote") {
+  if (document.querySelector("#start").innerText !== "next quote") {
     let checkScore = document.querySelector("#score");
     if (
       checkScore.innerText === "WIN!!!" ||
@@ -327,8 +318,8 @@ const randomQuote = async () => {
 
 //resets images and clears global choiceArr
 const nextQuote = () => {
-  if (document.querySelector(".largeImg")) {
-    document.querySelector(".largeImg").style.opacity = "0";
+  if (document.querySelector(".large-img")) {
+    document.querySelector(".large-img").style.opacity = "0";
   }
   document.querySelector("#quote").style.opacity = "0";
   let loader = document.querySelector("section");
@@ -340,7 +331,7 @@ const nextQuote = () => {
     let images = document.querySelectorAll(".choice-img");
     for (let i = 0; i < images.length; i++) {
       // hiding the last shown image
-      images[i].classList.remove("largeImg", "smallImg");
+      images[i].classList.remove("large-img", "small-img");
       images[i].style.opacity = "0";
       // need to get them ready for the next display of choices
       images[i].style.display = "block";
