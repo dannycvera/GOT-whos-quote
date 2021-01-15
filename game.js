@@ -71,18 +71,17 @@ const gameEnd = () => {
 };
 
 // checks if the answer is correct and displays the appropriate text
-const answer = (data, correct) => {
+const answer = (data, correct, ansLoc) => {
   // makes the next quote button visable again
   document.querySelector("#button").style.display = "block";
   document.querySelector("#button").style.opacity = "1";
   let images = document.querySelectorAll(".choice-img");
-  let x; // correct image index stored in x
+
   for (let i = 0; i < images.length; i++) {
     // checks for the correct image by comparing
     // the src url's to the .image property from the data passed
-    if (data.image == images[i].src) {
+    if (ansLoc === i) {
       images[i].classList.add("large-img"); //making the correct answer larger
-      x = i; // storing the correct answer image index
     } else {
       // wrong answers shrink and fade out
       images[i].classList.add("small-img");
@@ -90,7 +89,7 @@ const answer = (data, correct) => {
     }
   }
   // increasing the width of the parent of the correct answer image
-  let correctAside = images[x].parentElement;
+  let correctAside = images[ansLoc].parentElement;
   let asides = document.querySelectorAll("aside");
   for (let i = 0; i < asides.length; i++) {
     if (asides[i] === correctAside) {
@@ -188,10 +187,10 @@ const choices = async (name) => {
     let images = document.querySelectorAll(".choice-img");
     // setting the image index of the correct answer
     let ansLoc = rand(images.length);
-    images[ansLoc].src = charObj.image;
+    images[ansLoc].src = charObj.image.split("/revision", 1)[0];
     // calling the fuction "answer" to update score and display the appropriate text when correct
     images[ansLoc].onclick = () => {
-      answer(charObj, true);
+      answer(charObj, true, ansLoc);
     };
     //array to strore currently displayed characters
     const choiceArr = new Array(4);
@@ -219,11 +218,11 @@ const choices = async (name) => {
           "image" in charListFull[x] &&
           !(charListFull[x].image == "")
         ) {
-          image.src = charListFull[x].image;
+          image.src = charListFull[x].image.split("/revision", 1)[0]; //to remove all the extra parameters after the actual image file
           choiceArr[i] = charListFull[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
           image.onclick = () => {
-            answer(charObj, false);
+            answer(charObj, false, ansLoc);
           };
         }
       }
@@ -291,7 +290,7 @@ const randomQuote = async () => {
     let resp = await axios.get(URL);
     let i = 0;
     let x = 0; // protects against infinite loops. If too many duplicate quotes have been requested.
-    while (i < prevQuotes.length || x >= 10) {
+    while (i < prevQuotes.length) {
       let lastQuoteChara = prevQuotes[prevQuotes.length - 1].character.name;
       // checks if the current quote is a duplicate of any previous quotes
       if (
@@ -301,6 +300,9 @@ const randomQuote = async () => {
         i = 0;
         resp = await axios.get(URL);
         x++; // protects against infinite loops. If too many duplicate quotes have been requested.
+        if (x > 50) {
+          break;
+        }
       } else {
         i++;
       }
@@ -333,6 +335,7 @@ const nextQuote = () => {
       // hiding the last shown image
       images[i].classList.remove("large-img", "small-img");
       images[i].style.opacity = "0";
+      images[i].src = "";
       // need to get them ready for the next display of choices
       images[i].style.display = "block";
     }
