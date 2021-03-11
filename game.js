@@ -218,7 +218,7 @@ const choices = async (name) => {
           "image" in charListFull[x] &&
           !(charListFull[x].image == "")
         ) {
-          image.src = charListFull[x].image.split("/revision", 1)[0]; //to remove all the extra parameters after the actual image file
+          image.src = charListFull[x].image; //.split("/revision", 1)[0]; //to remove all the extra parameters after the actual image file
           choiceArr[i] = charListFull[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
           image.onclick = () => {
