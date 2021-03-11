@@ -187,7 +187,7 @@ const choices = async (name) => {
     let images = document.querySelectorAll(".choice-img");
     // setting the image index of the correct answer
     let ansLoc = rand(images.length);
-    images[ansLoc].src = charObj.image.split("/revision", 1)[0];
+    images[ansLoc].src = charObj.image; //.split("/revision", 1)[0];
     // calling the fuction "answer" to update score and display the appropriate text when correct
     images[ansLoc].onclick = () => {
       answer(charObj, true, ansLoc);
