@@ -15,40 +15,6 @@ if (localStorage.prevQuotes === undefined) {
   localStorage.prevQuotes = JSON.stringify([]);
 }
 const prevQuotes = JSON.parse(localStorage.prevQuotes);
-// global array for character choices on screen
-const charListFull = [];
-// downloads all characters and stores in a global variable charListFull
-const charImageList = async () => {
-  try {
-    // creates loading image that is only used once
-    let newImg = new Image();
-    newImg.classList.add("loader");
-    newImg.src = "./img/loading-slow.svg";
-    let button = document.querySelector("#button");
-    button.insertAdjacentElement("beforebegin", newImg);
-    // downloads character list
-    const URL_ALL = `https://api.got.show/api/show/characters/`;
-    const allCharObj = await axios.get(URL_ALL);
-    // pushes each record into a global array.
-    // Excluding records I've personally determined are faulty.
-    for (let i = 0; i < allCharObj.data.length; i++) {
-      if (i !== 91 && i !== 92 && i !== 97 && i !== 146) {
-        charListFull.push(allCharObj.data[i]);
-      }
-    }
-    // kills loading SVG
-    newImg.remove();
-    // Makes the start button visable and clickable
-    document.querySelector("#button").style.display = "block";
-    setTimeout(() => {
-      document.querySelector("#button").style.opacity = "1";
-    }, 200);
-    document.querySelector("#button").onclick = nextQuote;
-  } catch (error) {
-    console.error(`Hey, you have an error ${error}`);
-  }
-};
-charImageList();
 
 // resets the score and previous quotes array and flashes the game result text
 const gameEnd = () => {
@@ -134,29 +100,13 @@ const answer = (data, correct, ansLoc) => {
     tense = "was";
     alive = " And is no longer with us.";
   }
-  // checking if the character has more than one title.
-  // Currently the API only sends one title when searching individually.
-  // In the future if I devote more screen space to the text, I can list all their titles
-  // by cross referencing with charListFull.titles
-  if ((data.titles.length = 1)) {
-    pluralTitles = "title includes";
-    allTitles = data.titles;
-  } else {
-    pluralTitles = "titles include";
-    allTitles = data.titles[0];
-    for (let i of data.titles) {
-      if (i !== data.titles.length - 1) {
-        allTitles.concat(", ", i);
-      } else {
-        allTitles.concat(" and ", i);
-      }
-    }
-  }
+  pluralTitles = "title is";
+  allTitles = data.title;
   // puts all the variables together to generate the answer text
   descText = `${pronoun} ${pluralTitles} ${allTitles}`;
   document.querySelector(
     "p"
-  ).innerHTML = `${isCorrect}<br>It ${tense} <b>${data.name}</b> of ${data.house}. ${descText}.${alive}`;
+  ).innerHTML = `${isCorrect}<br>It ${tense} <b>${data.fullName}</b> of ${data.family}. ${descText}.${alive}`;
   // check if you win then resets the score and empties the previous quotes array
   if (score === winningScore) {
     document.querySelector("#score").innerText = "WIN!!!";
@@ -183,11 +133,12 @@ const rand = (max) => {
 const choices = async (name) => {
   try {
     // retrieving character info from global character list
-    const charObj = charListFull.find((obj) => obj.name === name);
+    // const charObj = charListFull.find((obj) => obj.fullName === name);
+    const charObj = characterData[characterMap[name]];
     let images = document.querySelectorAll(".choice-img");
     // setting the image index of the correct answer
     let ansLoc = rand(images.length);
-    images[ansLoc].src = charObj.image; //.split("/revision", 1)[0];
+    images[ansLoc].src = charObj.imageUrl; //.split("/revision", 1)[0];
     // calling the fuction "answer" to update score and display the appropriate text when correct
     images[ansLoc].onclick = () => {
       answer(charObj, true, ansLoc);
@@ -200,13 +151,13 @@ const choices = async (name) => {
       let image = images[i];
       //will stay in loop until global array is filled with 4 different characters
       while (choiceArr[i] === undefined) {
-        let x = rand(charListFull.length);
+        let x = rand(characterData.length);
         let isDup = false;
         for (let y = 0; y < images.length; y++) {
           // checking for duplicates inside the global variable choiceArr
           if (
             choiceArr[y] !== undefined &&
-            charListFull[x].name === choiceArr[y].name
+            characterData[x].fullName === choiceArr[y].fullName
           ) {
             isDup = true;
           }
@@ -215,11 +166,11 @@ const choices = async (name) => {
         // also checking for missing image keys in the oject
         if (
           isDup !== true &&
-          "image" in charListFull[x] &&
-          !(charListFull[x].image == "")
+          "image" in characterData[x] &&
+          !(characterData[x].imageUrl == "")
         ) {
-          image.src = charListFull[x].image; //.split("/revision", 1)[0]; //to remove all the extra parameters after the actual image file
-          choiceArr[i] = charListFull[x];
+          image.src = characterData[x].imageUrl; //.split("/revision", 1)[0]; //to remove all the extra parameters after the actual image file
+          choiceArr[i] = characterData[x];
           // calling the answer function to update score and the appropriate text when a wrong answer is given
           image.onclick = () => {
             answer(charObj, false, ansLoc);
@@ -234,26 +185,6 @@ const choices = async (name) => {
   } catch (error) {
     console.error(`Hey you got an error${error}`);
   }
-};
-
-// checks and fixes names that dont match correctly
-// from the quotes database to the character data
-const checkChar = (data) => {
-  let name = data.character.name;
-  if (name === "Lord Varys") {
-    name = "Varys";
-  } else if (name === "Tormund") {
-    name = "Tormund Giantsbane";
-  } else if (name === "Ramsay Bolton") {
-    name = "Ramsay Snow";
-  } else if (name === 'Eddard "Ned" Stark') {
-    name = "Eddard Stark";
-  } else if (name === "Brienne of Tharth") {
-    name = "Brienne of Tarth";
-  } else if (name === "Olenna Tyrell") {
-    name = "Olenna Redwyne";
-  }
-  choices(name);
 };
 
 // displays the quote
@@ -285,7 +216,7 @@ const displayQuote = (data) => {
 
 // requests random quote from API
 const randomQuote = async () => {
-  const URL = `https://game-of-thrones-quotes.herokuapp.com/v1/random`;
+  const URL = `https://api.gameofthronesquotes.xyz/v1/random`;
   try {
     let resp = await axios.get(URL);
     let i = 0;
@@ -311,7 +242,8 @@ const randomQuote = async () => {
     prevQuotes.push(resp.data);
     localStorage.prevQuotes = JSON.stringify(prevQuotes);
     displayQuote(resp.data);
-    checkChar(resp.data);
+    let name = resp?.data?.character?.name;
+    choices(name);
     return resp.data;
   } catch (error) {
     console.error(`You have an error. Please clean it up ${error}`);
@@ -345,3 +277,5 @@ const nextQuote = () => {
     randomQuote();
   }, 200);
 };
+
+document.querySelector("#button").onclick = nextQuote;

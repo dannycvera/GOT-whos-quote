@@ -103,8 +103,8 @@ Needed to make them bigger*/
 }
 
 #button {
-  display: none;
-  opacity: 0;
+  display: block;
+  opacity: 1;
   color: rgb(255, 238, 0);
   margin: 0 auto;
   width: 200px;
@@ -112,6 +112,7 @@ Needed to make them bigger*/
   border: 4px solid rgba(0, 0, 0, 0.5);
   background-color: rgb(159, 1, 1);
   transition: 0.2s linear;
+  font-family: "Game of Thrones";
 }
 
 #button:active {
