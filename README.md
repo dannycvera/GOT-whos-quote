@@ -15,7 +15,7 @@ Name, Title(s), Whether they are still alive or not, alegiances, culture and rel
 
 ## API and Data Sample
 ------------------------------------------
-UPDATE
+UPDATE:
 Currently only a single API is used for the quotes.
 The character data had to be hard coded from different sources, since that API is no longer functioning.
 ------------------------------------------
