@@ -122,7 +122,8 @@ Needed to make them bigger*/
 
 /* quote text begin */
 #quote {
-  font-size: 3.5vmin;
+  font-size: 3vmin;
+  line-height: normal;
 }
 
 section {
