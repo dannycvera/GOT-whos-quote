@@ -16,6 +16,8 @@ body {
   color: rgb(255, 230, 0);
   font-family: "Game of Thrones";
   overflow-x: hidden;
+  word-spacing: 8px;
+  /* line-height: 8px; */
 }
 
 main {
@@ -44,7 +46,7 @@ header {
 #title,
 #quote {
   margin: 5px;
-  padding: 4px;
+  padding: 4px 10px;
   border: 3px solid firebrick;
   border-radius: 5px;
   background-color: rgba(97, 61, 0, 0.735);
@@ -67,8 +69,11 @@ h5 {
   margin: 5px auto;
 }
 
-h3 {
+h3,
+p {
   font-size: 3vmin;
+  word-spacing: 10px;
+  line-height: 52px;
 }
 /* title end */
 

@@ -14,6 +14,12 @@ clearing the other characters from the screen with more information about the co
 Name, Title(s), Whether they are still alive or not, alegiances, culture and religion will all be shown.
 
 ## API and Data Sample
+------------------------------------------
+UPDATE:
+Currently only a single API is used for the quotes.
+The character data had to be hard coded from different sources, since that API is no longer functioning.
+------------------------------------------
+Initial Project API usage:
 
 Two API's will be used.
 The first will be from https://gameofthronesquotes.xyz/ to retrieve the quote and name of the character.
