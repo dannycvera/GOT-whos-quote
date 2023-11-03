@@ -73,7 +73,6 @@ h3,
 p {
   font-size: 3vmin;
   word-spacing: 10px;
-  line-height: 52px;
 }
 /* title end */
 
@@ -126,10 +125,6 @@ Needed to make them bigger*/
 /* button end */
 
 /* quote text begin */
-#quote {
-  font-size: 3vmin;
-  line-height: normal;
-}
 
 section {
   height: 50%;
